@@ -1,7 +1,11 @@
 ﻿ARKANOID:
 1) Układ klocków wczytywany z pliku tekstowego - Michał
 	SYSTEM GENEROWANIA Z PLIKU
-2) Menu może być wzięte z Ponga - Michał
+	Dodatkowe info:
+		- wymiary klocków identyczne z wymiarami paletki
+		- 6 warstw po 8 klocków każda
+		- Każda warstwa w nieco innym kolorze
+2) Menu może być wzięte z Ponga, tylko zmienić grafikę - Michał
 3) 4 Power UPy:- Prawnik
 	- wydłużenie paletki
 	- skrócenie paletki
@@ -11,3 +15,4 @@
 4) Model Kolizji podobny do Ponga - Prawnik
 5) Sterowanie wzięte z Ponga - Prawnik
 6) Ogólna pętla (rozgrywka + menu+ splash+ summary z Ponga) - Michał
+7) Zrobić tekstury - Michał 
