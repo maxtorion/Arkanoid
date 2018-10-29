@@ -1,13 +1,13 @@
 ﻿ARKANOID:
-1) Układ klocków wczytywany z pliku tekstowego
+1) Układ klocków wczytywany z pliku tekstowego - Michał
 	SYSTEM GENEROWANIA Z PLIKU
-2) Menu może być wzięte z Ponga
-3) 4 Power UPy:
+2) Menu może być wzięte z Ponga - Michał
+3) 4 Power UPy:- Prawnik
 	- wydłużenie paletki
 	- skrócenie paletki
 	- dodatkowe życie
 	- strzelanie
 	OGÓLNIE SYSTEM OBSŁUGI BONUSÓW
-4) Model Kolizji podobny do Ponga
-5) Sterowanie wzięte z Ponga
-6) Ogólna pętla (rozgrywka + menu+ splash+ summary z Ponga)
+4) Model Kolizji podobny do Ponga - Prawnik
+5) Sterowanie wzięte z Ponga - Prawnik
+6) Ogólna pętla (rozgrywka + menu+ splash+ summary z Ponga) - Michał
