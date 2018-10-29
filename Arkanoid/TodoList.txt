@@ -1,0 +1,13 @@
+﻿ARKANOID:
+1) Układ klocków wczytywany z pliku tekstowego
+	SYSTEM GENEROWANIA Z PLIKU
+2) Menu może być wzięte z Ponga
+3) 4 Power UPy:
+	- wydłużenie paletki
+	- skrócenie paletki
+	- dodatkowe życie
+	- strzelanie
+	OGÓLNIE SYSTEM OBSŁUGI BONUSÓW
+4) Model Kolizji podobny do Ponga
+5) Sterowanie wzięte z Ponga
+6) Ogólna pętla (rozgrywka + menu+ splash+ summary z Ponga)
