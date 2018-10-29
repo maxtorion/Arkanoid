@@ -6,7 +6,11 @@ using System.Threading.Tasks;
 
 namespace Arkanoid
 {
-    class PowerUp
+    interface IPowerUp
     {
+        //TODO: zmienna punkt, określająca położenie
+
+        //TODO: Metoda określająca, co dany power up robi
+
     }
 }

@@ -6,7 +6,8 @@ using System.Threading.Tasks;
 
 namespace Arkanoid
 {
-    class ShortPaddlePowerUp
+    class ShortPaddlePowerUp : IPowerUp
     {
+
     }
 }

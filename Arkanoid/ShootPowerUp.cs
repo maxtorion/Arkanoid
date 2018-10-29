@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Arkanoid
 {
-    class ShootPowerUp
+    class ShootPowerUp: IPowerUp
     {
     }
 }

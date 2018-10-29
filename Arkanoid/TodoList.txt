@@ -16,3 +16,4 @@
 5) Sterowanie wzięte z Ponga - Prawnik
 6) Ogólna pętla (rozgrywka + menu+ splash+ summary z Ponga) - Michał
 7) Zrobić tekstury - Michał 
+8) Zrobić pseudoUML do rozdziału klas

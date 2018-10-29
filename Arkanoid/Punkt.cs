@@ -6,7 +6,8 @@ using System.Threading.Tasks;
 
 namespace Arkanoid
 {
-    class LongPaddlePowerUp: IPowerUp
+    //zmienne x oraz y do określania lokalizacja
+    class Punkt
     {
     }
 }
