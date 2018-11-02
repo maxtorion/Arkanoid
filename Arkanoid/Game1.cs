@@ -1,21 +1,34 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
+using System;
+using System.Collections.Generic;
 
 namespace Arkanoid
 {
     /// <summary>
     /// This is the main type for your game.
     /// </summary>
-    public class Game1 : Game
+    
+
+    //W tej części wywoływać funkcję związane z grą
+    public partial class Game1 : Game
     {
-        GraphicsDeviceManager graphics;
-        SpriteBatch spriteBatch;
+        
+
+
+
 
         public Game1()
         {
             graphics = new GraphicsDeviceManager(this);
             Content.RootDirectory = "Content";
+
+            textureLoader = new ContentLoader<Texture2D>();
+            fontLoader = new ContentLoader<SpriteFont>();
+
+           
+
         }
 
         /// <summary>
@@ -29,6 +42,9 @@ namespace Arkanoid
             // TODO: Add your initialization logic here
 
             base.Initialize();
+            update_window_bounds();
+
+
         }
 
         /// <summary>
@@ -41,6 +57,9 @@ namespace Arkanoid
             spriteBatch = new SpriteBatch(GraphicsDevice);
 
             // TODO: use this.Content to load your game content here
+
+            textureLoader.Load(Content,textures_locations);
+            fontLoader.Load(Content,fonts_locations);
         }
 
         /// <summary>
@@ -76,7 +95,9 @@ namespace Arkanoid
             GraphicsDevice.Clear(Color.CornflowerBlue);
 
             // TODO: Add your drawing code here
-
+            spriteBatch.Begin();
+            spriteBatch.Draw(textureLoader.ElementsToLoad["images\\tlo"], new Rectangle(0, 0, (int)window_width, (int)window_height), Color.White);
+            spriteBatch.End();
             base.Draw(gameTime);
         }
     }
