@@ -31,6 +31,20 @@ namespace Arkanoid
             locations.ForEach(location => ElementsToLoad.Add(location,content.Load<T>(location)));
               
         }
+        public T getContent(string content_name) {
+
+            return ElementsToLoad[content_name];
+        }
+
+        public List<T> getListedContent(List<string> contentNames)
+        {
+
+            List<T> contentList = new List<T>();
+
+            contentNames.ForEach(name=>contentList.Add(ElementsToLoad[name]));
+
+            return contentList;
+        }
 
 
 

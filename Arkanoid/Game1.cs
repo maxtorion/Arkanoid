@@ -26,8 +26,10 @@ namespace Arkanoid
 
             textureLoader = new ContentLoader<Texture2D>();
             fontLoader = new ContentLoader<SpriteFont>();
-
+            contentGenerator = new ContentGenerator();
+            screenManager = new ScreenManager();
            
+
 
         }
 
@@ -42,8 +44,8 @@ namespace Arkanoid
             // TODO: Add your initialization logic here
 
             base.Initialize();
-            update_window_bounds();
-
+           
+          
 
         }
 
@@ -60,6 +62,34 @@ namespace Arkanoid
 
             textureLoader.Load(Content,textures_locations);
             fontLoader.Load(Content,fonts_locations);
+
+            //TODO: tu rozdzielać zawartość ContentLoaderów do Screenów
+            splashScreen = new Screen(graphics.GraphicsDevice);
+            menuScreen = new Screen(graphics.GraphicsDevice);
+            gameScreen = new Screen(graphics.GraphicsDevice);
+
+            screenManager.addScreen(GameStatesEnum.SPLASH, splashScreen);
+            screenManager.addScreen(GameStatesEnum.MENU, menuScreen);
+            screenManager.addScreen(GameStatesEnum.GAME, gameScreen);
+
+            contentGenerator.GenerateContent(new List<string>() {"tlo","splash", "pilka","paletka","menu"},
+                textureLoader.getListedContent(textures_locations));
+
+
+            List<string> names_to_load = new List<string>() { "tlo", "splash" };
+            screenManager.getScreen(GameStatesEnum.SPLASH).addObjectsAsABackGround(names_to_load,contentGenerator.getListOfGameObjects(names_to_load));
+
+            names_to_load = new List<string>() { "tlo", "menu" };
+            screenManager.getScreen(GameStatesEnum.MENU).addObjectsAsABackGround(names_to_load,contentGenerator.getListOfGameObjects(names_to_load));
+
+
+            screenManager.getScreen(GameStatesEnum.GAME).addObjectAsABackGround("tlo",contentGenerator.getGameObject("tlo"));
+            names_to_load = new List<string>() { "pilka", "paletka" };
+            screenManager.getScreen(GameStatesEnum.GAME).addNewObjectsToTheScreen(names_to_load, contentGenerator.getListOfGameObjects(names_to_load));
+
+
+
+
         }
 
         /// <summary>
@@ -80,7 +110,30 @@ namespace Arkanoid
         {
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
                 Exit();
+            newMouseState = Mouse.GetState();
+            if (currentGameState == GameStatesEnum.SPLASH)
+            {
+                if (wasMouseLeftButtonClickedAndReleased())
+                {
+                    currentGameState = GameStatesEnum.MENU;
+                    this.IsMouseVisible = true;
+                }
+            }
+            else if (currentGameState == GameStatesEnum.MENU)
+            {
+                //TODO:PLACEHOLDER, trzeba dodać najeżdżanie na opcje i wybór, ale to jak będzie pełnoprawne menu
+                if (wasMouseLeftButtonClickedAndReleased())
+                {
+                    currentGameState = GameStatesEnum.GAME;
+                    setUpGame();
+                    this.IsMouseVisible = false;
+                }
 
+            }
+            else if (currentGameState == GameStatesEnum.GAME) {
+
+            }
+            oldMouseState = newMouseState;
             // TODO: Add your update logic here
 
             base.Update(gameTime);
@@ -95,9 +148,9 @@ namespace Arkanoid
             GraphicsDevice.Clear(Color.CornflowerBlue);
 
             // TODO: Add your drawing code here
-            spriteBatch.Begin();
-            spriteBatch.Draw(textureLoader.ElementsToLoad["images\\tlo"], new Rectangle(0, 0, (int)window_width, (int)window_height), Color.White);
-            spriteBatch.End();
+
+            screenManager.DrawSelectedScreen(currentGameState,spriteBatch);
+
             base.Draw(gameTime);
         }
     }

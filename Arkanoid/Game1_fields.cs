@@ -18,12 +18,18 @@ namespace Arkanoid
         SpriteBatch spriteBatch;
         ContentLoader<Texture2D> textureLoader;
         ContentLoader<SpriteFont> fontLoader;
+        ContentGenerator contentGenerator;
+        Screen splashScreen, menuScreen, gameScreen;
+        ScreenManager screenManager;
+        MouseState newMouseState, oldMouseState;
 
+        GameStatesEnum currentGameState = GameStatesEnum.SPLASH;
+        //Kolejność jest ważna, więc nie mieszać!!!!
         private List<string> textures_locations = new List<string>() {
             "images\\tlo",
+            "images\\splash",
             "images\\pilka",
             "images\\paletka",
-            "images\\splash",
             "images\\menu_easy"
 
         };

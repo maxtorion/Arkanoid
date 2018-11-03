@@ -16,11 +16,26 @@ namespace Arkanoid
 {
     public partial class Game1:Game
     {
-        protected void update_window_bounds()
+       public bool wasMouseLeftButtonClickedAndReleased()
         {
-            window_height = GraphicsDevice.Viewport.Bounds.Height;
-            window_width = GraphicsDevice.Viewport.Bounds.Width;
+            bool answer = false;
+            if (this.newMouseState.LeftButton == ButtonState.Pressed
+                && this.oldMouseState.LeftButton == ButtonState.Released)
+            {
+                answer = true;
+            }
+
+            return answer;
         }
+
+        public void setUpGame()
+        {
+            Screen gameScreen = screenManager.getScreen(GameStatesEnum.GAME);
+            gameScreen.moveObjectToTheMiddleOfTheWidth("paletka",gameScreen.ScreenBoundary.WindowHeight - 100);
+            gameScreen.moveObjectToTheMiddleOfTheWidth("pilka", gameScreen.ScreenBoundary.WindowHeight - 120);
+
+        }
+        
 
 
     }
