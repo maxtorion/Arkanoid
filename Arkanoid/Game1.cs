@@ -14,10 +14,10 @@ namespace Arkanoid
     //W tej części wywoływać funkcję związane z grą
     public partial class Game1 : Game
     {
-        
 
 
 
+        MapGenerator mapGenerator = new MapGenerator();
 
         public Game1()
         {
@@ -28,8 +28,8 @@ namespace Arkanoid
             fontLoader = new ContentLoader<SpriteFont>();
             contentGenerator = new ContentGenerator();
             screenManager = new ScreenManager();
-           
 
+            mapGenerator.Get_location_box(@"E:/Programowanie i Projektowanie Gier/Arkanoid/Arkanoid/Coordinates.txt");
 
         }
 
