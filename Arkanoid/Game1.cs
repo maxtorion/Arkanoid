@@ -29,7 +29,7 @@ namespace Arkanoid
             contentGenerator = new ContentGenerator();
             screenManager = new ScreenManager();
 
-            mapGenerator.Get_location_box(@"C:\Users\mateu\source\repos\Arkanoid\Arkanoid\Coordinates.txt");
+           // mapGenerator.Get_location_box(@"C:\Users\mateu\source\repos\Arkanoid\Arkanoid\Coordinates.txt");
 
         }
 

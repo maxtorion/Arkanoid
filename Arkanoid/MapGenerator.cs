@@ -13,10 +13,11 @@ namespace Arkanoid
 
       
         private List<Punkt> coordinates = new List<Punkt>();
+        
 
         internal List<Punkt> Coordinates { get => coordinates; set => coordinates = value; }
 
-        internal void Get_location_box(String path)
+        internal void generateBlocksFromFile(String path, ContentGenerator contentGenerator)
         {
             string[] plik = File.ReadAllLines(path);
             char[] separator = { ' ' };
@@ -25,8 +26,11 @@ namespace Arkanoid
             {
                 string[] temp = plik[i].Split(separator, StringSplitOptions.RemoveEmptyEntries);
 
-                for (int j = 0; j < temp.Length; j += 2)
-                    coordinates.Add(new Punkt(int.Parse(temp[j]), int.Parse(temp[j + 1])));
+                for (int j = 0; j < temp.Length; j += 2) {
+                    //contentGenerator.GenerateContent("klocek"+i+""+j,,new Punkt(i,int.Parse(temp[j + 1])));
+                }
+
+
             }
             
         }
