@@ -40,7 +40,6 @@ namespace Arkanoid
 
 
 
-        //TODO:TYMCZASOWO
-        private double window_width, window_height;
+       
     }
 }
