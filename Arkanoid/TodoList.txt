@@ -5,6 +5,7 @@
 		- wymiary klocków identyczne z wymiarami paletki
 		- 6 warstw po 8 klocków każda
 		- Każda warstwa w nieco innym kolorze
+		- Dodanie automatycznego generowania tekstur
 2) Menu może być wzięte z Ponga, tylko zmienić grafikę - Michał
 3) 4 Power UPy:- Prawnik
 	- wydłużenie paletki

@@ -3,6 +3,7 @@ using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using System;
 using System.Collections.Generic;
+using System.IO;
 
 namespace Arkanoid
 {
@@ -29,8 +30,8 @@ namespace Arkanoid
             contentGenerator = new ContentGenerator();
             screenManager = new ScreenManager();
 
-           // mapGenerator.Get_location_box(@"C:\Users\mateu\source\repos\Arkanoid\Arkanoid\Coordinates.txt");
-
+            // mapGenerator.Get_location_box(@"C:\Users\mateu\source\repos\Arkanoid\Arkanoid\Coordinates.txt");
+            
         }
 
         /// <summary>
@@ -87,8 +88,14 @@ namespace Arkanoid
             names_to_load = new List<string>() { "pilka", "paletka" };
             screenManager.getScreen(GameStatesEnum.GAME).addNewObjectsToTheScreen(names_to_load, contentGenerator.getListOfGameObjects(names_to_load));
 
+            //Console.WriteLine(Directory.GetDirectories());
 
-
+            // Access denied
+           mapGenerator.generateBlocksFromFile(Directory.GetCurrentDirectory().ToString(), contentGenerator, textureLoader);
+           names_to_load = new List<string>() {"klocek0","klocek1", "klocek2", "klocek3", "klocek4", "klocek5", "klocek6", "klocek7", "klocek8", "klocek9",
+               "klocek10", "klocek11", "klocek12", "klocek13", "klocek14", "klocek15", "klocek16", "klocek17", "klocek18", "klocek19", "klocek20", "klocek21",
+               "klocek22", "klocek23", "klocek24", "klocek25", "klocek26", "klocek27", "klocek28", "klocek29", "klocek30", "klocek31", "klocek32", "klocek33", "klocek34", "klocek35",};
+           screenManager.getScreen(GameStatesEnum.GAME).addNewObjectsToTheScreen(names_to_load, contentGenerator.getListOfGameObjects(names_to_load));
 
         }
 

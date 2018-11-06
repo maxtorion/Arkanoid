@@ -30,8 +30,13 @@ namespace Arkanoid
             "images\\splash",
             "images\\pilka",
             "images\\paletka",
-            "images\\menu_easy"
-
+            "images\\menu_easy",
+            "images\\box_blue",
+            "images\\box_brown",
+            "images\\box_green",
+            "images\\box_orange",
+            "images\\box_red",
+            "images\\box_yellow"
         };
 
         private List<string>fonts_locations = new List<string>() {
