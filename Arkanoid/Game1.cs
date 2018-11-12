@@ -113,11 +113,16 @@ namespace Arkanoid
         /// checking for collisions, gathering input, and playing audio.
         /// </summary>
         /// <param name="gameTime">Provides a snapshot of timing values.</param>
+
+
         protected override void Update(GameTime gameTime)
         {
-            if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
+            if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed ||
+                Keyboard.GetState().IsKeyDown(Keys.Escape))
                 Exit();
+
             newMouseState = Mouse.GetState();
+
             if (currentGameState == GameStatesEnum.SPLASH)
             {
                 if (wasMouseLeftButtonClickedAndReleased())
@@ -129,7 +134,9 @@ namespace Arkanoid
             else if (currentGameState == GameStatesEnum.MENU)
             {
                 //TODO:PLACEHOLDER, trzeba dodać najeżdżanie na opcje i wybór, ale to jak będzie pełnoprawne menu
-                if (wasMouseLeftButtonClickedAndReleased())
+                if (wasMouseLeftButtonClickedAndReleased() &&
+                    (newMouseState.Position.X >= 470 && newMouseState.Position.X <= 680) &&
+                    (newMouseState.Position.Y >= 140 && newMouseState.Position.Y <= 220))
                 {
                     currentGameState = GameStatesEnum.GAME;
                     setUpGame();
