@@ -24,8 +24,6 @@ namespace Arkanoid
             ElementsToLoad = new Dictionary<string, T>();
         }
 
-       
-
         public void Load(ContentManager content, List<string> locations) {
 
             locations.ForEach(location => ElementsToLoad.Add(location,content.Load<T>(location)));
@@ -44,12 +42,6 @@ namespace Arkanoid
             contentNames.ForEach(name=>contentList.Add(ElementsToLoad[name]));
 
             return contentList;
-        }
-
-
-
-
-
-          
+        }  
     }
 }

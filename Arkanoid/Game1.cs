@@ -72,7 +72,7 @@ namespace Arkanoid
             screenManager.addScreen(GameStatesEnum.MENU, menuScreen);
             screenManager.addScreen(GameStatesEnum.GAME, gameScreen);
 
-            contentGenerator.GenerateContent(new List<string>() {"tlo","splash", "pilka","paletka","menu"},
+            contentGenerator.GenerateContent(new List<string>() {"tlo","splash", "ball", "paddle", "menu"},
                 textureLoader.getListedContent(textures_locations));
 
 
@@ -84,7 +84,7 @@ namespace Arkanoid
 
 
             screenManager.getScreen(GameStatesEnum.GAME).addObjectAsABackGround("tlo",contentGenerator.getGameObject("tlo"));
-            names_to_load = new List<string>() { "pilka", "paletka" };
+            names_to_load = new List<string>() { "ball", "paddle" };
             screenManager.getScreen(GameStatesEnum.GAME).addNewObjectsToTheScreen(names_to_load, contentGenerator.getListOfGameObjects(names_to_load));
 
             Console.WriteLine(Directory.GetCurrentDirectory().ToString() + "\\Content.txt");

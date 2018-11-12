@@ -31,8 +31,8 @@ namespace Arkanoid
         public void setUpGame()
         {
             Screen gameScreen = screenManager.getScreen(GameStatesEnum.GAME);
-            gameScreen.moveObjectToTheMiddleOfTheWidth("paletka",gameScreen.ScreenBoundary.WindowHeight - 100);
-            gameScreen.moveObjectToTheMiddleOfTheWidth("pilka", gameScreen.ScreenBoundary.WindowHeight - 120);
+            gameScreen.moveObjectToTheMiddleOfTheWidth("paddle",gameScreen.ScreenBoundary.WindowHeight - 100);
+            gameScreen.moveObjectToTheMiddleOfTheWidth("ball", gameScreen.ScreenBoundary.WindowHeight - 120);
 
         }
         

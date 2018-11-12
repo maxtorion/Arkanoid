@@ -48,7 +48,6 @@ namespace Arkanoid
 
         }
 
-
         public Screen(Dictionary<string, GameObject> gameObjectsOnScreen, ScreenBoundaries screenBoundaries)
         {
             this.gameObjectsOnScreen = gameObjectsOnScreen;
@@ -82,9 +81,6 @@ namespace Arkanoid
         {
            GameObjectsOnScreen.Union(dictOfGameObjects);
         }
-
-
-
 
         public void addObjectAsABackGround(string name,GameObject gameObject)
         {

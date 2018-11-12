@@ -1,4 +1,6 @@
 ﻿ARKANOID:
+// Gotowe: 
+// Do Sprawdzenia: 1
 1) Układ klocków wczytywany z pliku tekstowego - Michał
 	SYSTEM GENEROWANIA Z PLIKU
 	Dodatkowe info:
@@ -18,3 +20,4 @@
 6) Ogólna pętla (rozgrywka + menu+ splash+ summary z Ponga) - Michał
 7) Zrobić tekstury - Michał 
 8) Zrobić pseudoUML do rozdziału klas
+9) Dodać kilka czcionek do Conntent - Prawnik

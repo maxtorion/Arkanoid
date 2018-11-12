@@ -28,9 +28,9 @@ namespace Arkanoid
         private List<string> textures_locations = new List<string>() {
             "images\\tlo",
             "images\\splash",
-            "images\\pilka",
+            "images\\ball",
             "images\\paddle",
-            "images\\menu_easy",
+            "images\\menu",
             "images\\box_blue",
             "images\\box_brown",
             "images\\box_green",
@@ -40,7 +40,7 @@ namespace Arkanoid
         };
 
         private List<string>fonts_locations = new List<string>() {
-            "fonts\\wynik"
+            "fonts\\wynik",
         };
 
 
