@@ -29,14 +29,14 @@ namespace Arkanoid
             "images\\tlo",
             "images\\splash",
             "images\\pilka",
-            "images\\paletka",
+            "images\\paddle",
             "images\\menu_easy",
             "images\\box_blue",
             "images\\box_brown",
             "images\\box_green",
             "images\\box_orange",
             "images\\box_red",
-            "images\\box_yellow"
+            "images\\box_purple"
         };
 
         private List<string>fonts_locations = new List<string>() {

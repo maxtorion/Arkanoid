@@ -23,14 +23,13 @@ namespace Arkanoid
         public Game1()
         {
             graphics = new GraphicsDeviceManager(this);
+            graphics.PreferredBackBufferWidth = 804;
             Content.RootDirectory = "Content";
 
             textureLoader = new ContentLoader<Texture2D>();
             fontLoader = new ContentLoader<SpriteFont>();
             contentGenerator = new ContentGenerator();
             screenManager = new ScreenManager();
-
-            // mapGenerator.Get_location_box(@"C:\Users\mateu\source\repos\Arkanoid\Arkanoid\Coordinates.txt");
             
         }
 
@@ -88,13 +87,14 @@ namespace Arkanoid
             names_to_load = new List<string>() { "pilka", "paletka" };
             screenManager.getScreen(GameStatesEnum.GAME).addNewObjectsToTheScreen(names_to_load, contentGenerator.getListOfGameObjects(names_to_load));
 
-            //Console.WriteLine(Directory.GetDirectories());
+            Console.WriteLine(Directory.GetCurrentDirectory().ToString() + "\\Content.txt");
 
             // Access denied
-           mapGenerator.generateBlocksFromFile(Directory.GetCurrentDirectory().ToString(), contentGenerator, textureLoader);
-           names_to_load = new List<string>() {"klocek0","klocek1", "klocek2", "klocek3", "klocek4", "klocek5", "klocek6", "klocek7", "klocek8", "klocek9",
-               "klocek10", "klocek11", "klocek12", "klocek13", "klocek14", "klocek15", "klocek16", "klocek17", "klocek18", "klocek19", "klocek20", "klocek21",
-               "klocek22", "klocek23", "klocek24", "klocek25", "klocek26", "klocek27", "klocek28", "klocek29", "klocek30", "klocek31", "klocek32", "klocek33", "klocek34", "klocek35",};
+           mapGenerator.generateBlocksFromFile(Directory.GetCurrentDirectory().ToString() + "\\Coordinates.txt", contentGenerator, textureLoader);
+           names_to_load = new List<string>() {"box0","box1", "box2", "box3", "box4", "box5", "box6", "box7", "box8", "box9",
+               "box10", "box11", "box12", "box13", "box14", "box15", "box16", "box17", "box18", "box19", "box20", "box21",
+               "box22", "box23", "box24", "box25", "box26", "box27", "box28", "box29", "box30", "box31", "box32", "box33", "box34", "box35",
+           "box36", "box37", "box38", "box39", "box40", "box41", "box42", "box43", "box44", "box45", "box46", "box47",};
            screenManager.getScreen(GameStatesEnum.GAME).addNewObjectsToTheScreen(names_to_load, contentGenerator.getListOfGameObjects(names_to_load));
 
         }

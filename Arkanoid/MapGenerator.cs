@@ -12,22 +12,25 @@ namespace Arkanoid
 {
     class MapGenerator
     {
-
         private List<Punkt> coordinates = new List<Punkt>();
         private Texture2D texture2D;
-
+        private string[] boxName;
         internal List<Punkt> Coordinates { get => coordinates; set => coordinates = value; }
+        internal string[] BoxName { get => boxName; set => boxName = value; }
+        internal string BoxNameExact (int i) { return boxName[i]; }
+        
 
         internal void generateBlocksFromFile(String path, ContentGenerator contentGenerator, ContentLoader<Texture2D> contentLoader)
         {
-            string[] plik = File.ReadAllLines(path);
+            string[] file = File.ReadAllLines(path);
             char[] separator = { ' ' };
+            boxName = new string[file.Length];
 
             int counter = 0;
 
-            for (int i = 0; i < plik.Length; i++)
+            for (int i = 0; i < file.Length; i++)
             {
-                string[] temp = plik[i].Split(separator, StringSplitOptions.RemoveEmptyEntries);
+                string[] temp = file[i].Split(separator, StringSplitOptions.RemoveEmptyEntries);
 
                 for (int j = 0; j < temp.Length; j += 3) {
 
@@ -51,12 +54,13 @@ namespace Arkanoid
                     {
                         texture2D = contentLoader.getContent("images\\box_red");
                     }
-                    else
+                    else if(int.Parse(temp[j + 2]).Equals(5))
                     {
-                        texture2D = contentLoader.getContent("images\\box_yellow");
+                        texture2D = contentLoader.getContent("images\\box_purple");
                     }
 
-                    contentGenerator.GenerateContent("klocek" + counter++, texture2D, new Point(int.Parse(temp[j]),int.Parse(temp[j + 1])));
+                    boxName[i] = "box" + counter++;
+                    contentGenerator.GenerateContent(boxName[i], texture2D, new Point(int.Parse(temp[j]),int.Parse(temp[j + 1])));
                 }
 
 
