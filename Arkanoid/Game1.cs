@@ -95,8 +95,8 @@ namespace Arkanoid
             // Access denied
            mapGenerator.generateBlocksFromFile(Directory.GetCurrentDirectory().ToString() + "\\Coordinates.txt", contentGenerator, textureLoader);
             names_to_load = new List<string>();
-            for (int i = 0; i < mapGenerator.BoxName.Length; i++)
-                names_to_load.Add(mapGenerator.BoxNameExact(i));
+            foreach (String i in mapGenerator.BoxName)
+                names_to_load.Add(i);
            /*names_to_load = new List<string>() {"box0","box1", "box2", "box3", "box4", "box5", "box6", "box7", "box8", "box9",
                "box10", "box11", "box12", "box13", "box14", "box15", "box16", "box17", "box18", "box19", "box20", "box21",
                "box22", "box23", "box24", "box25", "box26", "box27", "box28", "box29", "box30", "box31", "box32", "box33", "box34", "box35",
