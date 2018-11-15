@@ -89,12 +89,18 @@ namespace Arkanoid
 
             Console.WriteLine(Directory.GetCurrentDirectory().ToString() + "\\Content.txt");
 
+
+
+
             // Access denied
            mapGenerator.generateBlocksFromFile(Directory.GetCurrentDirectory().ToString() + "\\Coordinates.txt", contentGenerator, textureLoader);
-           names_to_load = new List<string>() {"box0","box1", "box2", "box3", "box4", "box5", "box6", "box7", "box8", "box9",
+            names_to_load = new List<string>();
+            for (int i = 0; i < mapGenerator.BoxName.Length; i++)
+                names_to_load.Add(mapGenerator.BoxNameExact(i));
+           /*names_to_load = new List<string>() {"box0","box1", "box2", "box3", "box4", "box5", "box6", "box7", "box8", "box9",
                "box10", "box11", "box12", "box13", "box14", "box15", "box16", "box17", "box18", "box19", "box20", "box21",
                "box22", "box23", "box24", "box25", "box26", "box27", "box28", "box29", "box30", "box31", "box32", "box33", "box34", "box35",
-           "box36", "box37", "box38", "box39", "box40", "box41", "box42", "box43", "box44", "box45", "box46", "box47",};
+           "box36", "box37", "box38", "box39", "box40", "box41", "box42", "box43", "box44", "box45", "box46", "box47",};*/
            screenManager.getScreen(GameStatesEnum.GAME).addNewObjectsToTheScreen(names_to_load, contentGenerator.getListOfGameObjects(names_to_load));
 
         }
