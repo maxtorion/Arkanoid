@@ -30,7 +30,16 @@ namespace Arkanoid
             fontLoader = new ContentLoader<SpriteFont>();
             contentGenerator = new ContentGenerator();
             screenManager = new ScreenManager();
+            collisionDictionary = new Dictionary<string, bool>();
+            collisionDictionary.Add("TOP", false);
+            collisionDictionary.Add("BOTTOM", false);
+            collisionDictionary.Add("LEFT", false);
+            collisionDictionary.Add("RIGHT", false);
+
+            blocks = new List<string>();
+
             
+
         }
 
         /// <summary>
@@ -87,21 +96,22 @@ namespace Arkanoid
             names_to_load = new List<string>() { "ball", "paddle" };
             screenManager.getScreen(GameStatesEnum.GAME).addNewObjectsToTheScreen(names_to_load, contentGenerator.getListOfGameObjects(names_to_load));
 
-            Console.WriteLine(Directory.GetCurrentDirectory().ToString() + "\\Content.txt");
 
 
 
-
-            // Access denied
            mapGenerator.generateBlocksFromFile(Directory.GetCurrentDirectory().ToString() + "\\Coordinates.txt", contentGenerator, textureLoader);
             names_to_load = new List<string>();
             for (int i = 0; i < mapGenerator.BoxName.Length; i++)
                 names_to_load.Add(mapGenerator.BoxNameExact(i));
-           /*names_to_load = new List<string>() {"box0","box1", "box2", "box3", "box4", "box5", "box6", "box7", "box8", "box9",
-               "box10", "box11", "box12", "box13", "box14", "box15", "box16", "box17", "box18", "box19", "box20", "box21",
-               "box22", "box23", "box24", "box25", "box26", "box27", "box28", "box29", "box30", "box31", "box32", "box33", "box34", "box35",
-           "box36", "box37", "box38", "box39", "box40", "box41", "box42", "box43", "box44", "box45", "box46", "box47",};*/
-           screenManager.getScreen(GameStatesEnum.GAME).addNewObjectsToTheScreen(names_to_load, contentGenerator.getListOfGameObjects(names_to_load));
+
+          blocks = names_to_load;
+         
+          screenManager.getScreen(GameStatesEnum.GAME).addNewObjectsToTheScreen(names_to_load, contentGenerator.getListOfGameObjects(names_to_load));
+
+          objectToNotRemoveOnCollision = screenManager.getScreen(GameStatesEnum.GAME).generateScreenWalls();
+
+          objectToNotRemoveOnCollision.Add("paddle");
+
 
         }
 
@@ -152,10 +162,66 @@ namespace Arkanoid
             }
             else if (currentGameState == GameStatesEnum.GAME) {
 
+                //Jak mogę to uprościć?
+
+                if (newMouseState.X >= 0 &&
+                    newMouseState.X <= screenManager.getSelectedScreenWidth(currentGameState)
+                    - screenManager.getGameObjectFromTheScreen(currentGameState, "paddle").ObjectShape.Width)
+                {
+                    Point location = new Point(newMouseState.X, screenManager.getGameObjectFromTheScreen(currentGameState, "paddle").ObjectShape.Y);
+                    screenManager.moveObjectOnTheScreen(currentGameState, "paddle", location);
+                }
+                if (wasBallShoot==false)
+                {
+                    set_up_ball();
+
+                    if (newMouseState.LeftButton == ButtonState.Pressed && oldMouseState.LeftButton == ButtonState.Released && wasBallShoot == false)
+                        shoot_ball(-x_speed, -y_speed);
+
+                    if (newMouseState.RightButton == ButtonState.Pressed && oldMouseState.RightButton == ButtonState.Released && wasBallShoot == false)
+                        shoot_ball(x_speed, -y_speed);
+                }
+                else
+                {
+             
+                    List<string> objectsToCheck = new List<string>();
+
+                     objectsToCheck.Add("paddle");
+
+                    blocks.ForEach(block => objectsToCheck.Add(block));
+
+           
+                    string pottentialCollisionObjectName = screenManager.getScreen(GameStatesEnum.GAME).checkIfObjectIsInCollisionWithOtherObjects("ball", objectsToCheck);
+
+                    if (pottentialCollisionObjectName != null)
+                    {
+                        collisionDictionary = screenManager.getScreen(GameStatesEnum.GAME).GetGameObject(pottentialCollisionObjectName).
+                            getCollisionDictionary(screenManager.getScreen(GameStatesEnum.GAME).GetGameObject("ball"));
+                        if (blocks.Contains(pottentialCollisionObjectName))
+                        {
+                            screenManager.getScreen(GameStatesEnum.GAME).removeObject(pottentialCollisionObjectName);
+                            blocks.Remove(pottentialCollisionObjectName);
+
+                        }
+                       
+                        deflectBall();
+
+                    }
+                }
+               
+                
+
+                
+               
+                
+
+                   
+
             }
             oldMouseState = newMouseState;
             // TODO: Add your update logic here
 
+            screenManager.getScreen(currentGameState).AnimateScreen();
             base.Update(gameTime);
         }
 

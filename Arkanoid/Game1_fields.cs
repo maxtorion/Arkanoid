@@ -22,6 +22,13 @@ namespace Arkanoid
         Screen splashScreen, menuScreen, gameScreen;
         ScreenManager screenManager;
         MouseState newMouseState, oldMouseState;
+        Dictionary<string, bool> collisionDictionary;
+        List<string> objectToNotRemoveOnCollision;
+        List<string> blocks;
+
+        bool wasBallShoot = false;
+        int x_speed = 3;
+        int y_speed = 3;
 
         GameStatesEnum currentGameState = GameStatesEnum.SPLASH;
         //Kolejność jest ważna, więc nie mieszać!!!!

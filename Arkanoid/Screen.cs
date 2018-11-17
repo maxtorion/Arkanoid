@@ -62,7 +62,18 @@ namespace Arkanoid
 
         public GameObject GetGameObject(string name) {
 
-            return GameObjectsOnScreen[name];
+            GameObject foundObject;
+            try
+            {
+               foundObject = GameObjectsOnScreen[name];
+
+            }
+            catch (System.Collections.Generic.KeyNotFoundException)
+            {
+                foundObject = null;
+                
+            }
+            return foundObject;
         }
 
         public void addNewObjectToTheScreen(string name,GameObject gameObject)
@@ -108,9 +119,14 @@ namespace Arkanoid
 
         public void moveObjectToTheNewLocation(string objectName,Point location)
         {
-            Rectangle oldObjectLocation = this.GetGameObject(objectName).ObjectShape;
-            this.GetGameObject(objectName).ObjectShape = new Rectangle(location.X,location.Y,oldObjectLocation.Width,oldObjectLocation.Height);
+          
+            this.GetGameObject(objectName).moveObject(location);
 
+
+        }
+        public void removeObject(string objectName)
+        {
+            this.gameObjectsOnScreen.Remove(objectName);
         }
 
         public void moveObjectToTheMiddleOfTheWidth(string objectName, int height) {
@@ -124,6 +140,59 @@ namespace Arkanoid
         {
             GameObjectsOnScreen.Values.ToArray().ToList().ForEach(gameObject => gameObject.DrawGameObject(spriteBatch));
         }
+        public void AnimateScreen()
+        {
+            foreach (GameObject gameObject in this.GameObjectsOnScreen.Values)
+            {
+                gameObject.moveObjectBasedOnItsMovmentVector();
+            }
+        }
+
+        public string checkIfObjectIsInCollisionWithOtherObjects(string nameOfObjectToHaveCollision, List<string> namesOfObjectToCheck)
+        {
+            string answer = null;
+
+            namesOfObjectToCheck.Add("LEFT_WALL");
+            namesOfObjectToCheck.Add("TOP_WALL");
+            namesOfObjectToCheck.Add("RIGHT_WALL");
+
+
+            foreach (string objectName in namesOfObjectToCheck)
+            {
+
+                if (this.GetGameObject(objectName)!=null && this.GetGameObject(objectName).isInCollisionWithOtherObject(this.GetGameObject(nameOfObjectToHaveCollision)))
+                {
+                    answer = objectName;
+                    break;
+                }
+               
+            }
+
+            return answer;
+        }
+
+        public List<string> generateScreenWalls()
+        {
+            List<string> wallsIDs = new List<string>()
+            {
+                "LEFT_WALL",
+                "TOP_WALL",
+                "RIGHT_WALL"
+            };
+
+            this.addNewObjectToTheScreen(wallsIDs[0],
+                new GameObject(null,new Rectangle(-20,0,20,this.ScreenBoundary.WindowHeight),Color.White));
+
+            this.addNewObjectToTheScreen(wallsIDs[1],
+               new GameObject(null, new Rectangle(0, -20, screenBoundaries.WindowWidth,20), Color.White));
+
+            this.addNewObjectToTheScreen(wallsIDs[2],
+               new GameObject(null, new Rectangle(screenBoundaries.WindowWidth, 0, 20, this.ScreenBoundary.WindowHeight), Color.White));
+
+            return wallsIDs;
+        }
+
+        
 
 
     }
