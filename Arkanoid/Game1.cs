@@ -207,6 +207,12 @@ namespace Arkanoid
                         deflectBall();
 
                     }
+                    if (screenManager.getScreen(GameStatesEnum.GAME).checkIfObjectIsBeyondBottomOfTheScreen("ball"))
+                    {
+                        set_up_ball();
+
+
+                    }
                 }
                
                 

@@ -25,6 +25,8 @@ namespace Arkanoid
         Dictionary<string, bool> collisionDictionary;
         List<string> objectToNotRemoveOnCollision;
         List<string> blocks;
+        int lifes;
+        int points;
 
         bool wasBallShoot = false;
         int x_speed = 3;

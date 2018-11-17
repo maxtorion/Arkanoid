@@ -55,10 +55,10 @@ namespace Arkanoid
             bool answer = false;
             Point other_top_middle_point = other_object_collision_mesh.Top_middle_point;
 
-            if (other_top_middle_point.X >= this.Bottom_left_point.X && 
-                other_top_middle_point.X <= this.Bottom_right_point.X &&
-                other_top_middle_point.Y <= this.bottom_middle_point.Y&&
-                other_top_middle_point.Y >= this.Top_middle_point.Y)
+            if (Math.Abs(other_top_middle_point.X) >= Math.Abs(this.Bottom_left_point.X) && 
+                Math.Abs(other_top_middle_point.X) <= Math.Abs(this.Bottom_right_point.X) &&
+                Math.Abs(other_top_middle_point.Y) <= Math.Abs(this.bottom_middle_point.Y)&&
+                Math.Abs(other_top_middle_point.Y) >= Math.Abs(this.Top_middle_point.Y))
             {
                 answer = true;
             }
@@ -118,10 +118,10 @@ namespace Arkanoid
             bool answer = false;
             Point other_bottom_middle_point = other_object_collision_mesh.Bottom_middle_point;
 
-            if (other_bottom_middle_point.X >= this.Top_left_point.X && 
-                other_bottom_middle_point.X <= this.Top_right_point.X && 
-                other_bottom_middle_point.Y >= this.Top_middle_point.Y &&
-                other_bottom_middle_point.Y <= this.Bottom_middle_point.Y)
+            if (Math.Abs(other_bottom_middle_point.X) >= Math.Abs(this.Top_left_point.X) &&
+                Math.Abs(other_bottom_middle_point.X) <= Math.Abs(this.Top_right_point.X) &&
+                Math.Abs(other_bottom_middle_point.Y) >= Math.Abs(this.Top_middle_point.Y) &&
+                Math.Abs(other_bottom_middle_point.Y) <= Math.Abs(this.Bottom_middle_point.Y))
             {
                 answer = true;
             }
@@ -163,10 +163,10 @@ namespace Arkanoid
             bool answer = false;
             Point other_top_right_point = other_object_collision_mesh.Top_right_point;
 
-            if (other_top_right_point.Y>=this.Top_left_point.Y &&
-                other_top_right_point.Y<= this.Bottom_left_point.Y &&
-                 other_top_right_point.X >= this.Middle_left_point.X &&
-                 other_top_right_point.X <= this.Middle_right_point.X)
+            if (Math.Abs(other_top_right_point.Y) >= Math.Abs(this.Top_left_point.Y) &&
+                 Math.Abs(other_top_right_point.Y) <= Math.Abs(this.Bottom_left_point.Y) &&
+                  Math.Abs(other_top_right_point.X) >= Math.Abs(this.Middle_left_point.X) &&
+                  Math.Abs(other_top_right_point.X) <= Math.Abs(this.Middle_right_point.X))
             {
                 answer = true;
             }
@@ -179,10 +179,10 @@ namespace Arkanoid
             bool answer = false;
             Point other_right_middle_point = other_object_collision_mesh.Middle_right_point;
 
-            if (other_right_middle_point.Y >= this.Top_left_point.Y &&
-               other_right_middle_point.Y <= this.Bottom_left_point.Y &&
-                other_right_middle_point.X >= this.Middle_left_point.X&&
-                other_right_middle_point.X <= this.Middle_right_point.X)
+            if (Math.Abs(other_right_middle_point.Y) >= Math.Abs(this.Top_left_point.Y) &&
+                Math.Abs(other_right_middle_point.Y) <= Math.Abs(this.Bottom_left_point.Y) &&
+                 Math.Abs(other_right_middle_point.X) >= Math.Abs(this.Middle_left_point.X) &&
+                 Math.Abs(other_right_middle_point.X) <= Math.Abs(this.Middle_right_point.X))
             {
                 answer = true;
             }
@@ -195,10 +195,10 @@ namespace Arkanoid
             bool answer = false;
             Point other_right_bottom_point = other_object_collision_mesh.Bottom_right_point;
 
-            if (other_right_bottom_point.Y >= this.Top_left_point.Y &&
-               other_right_bottom_point.Y <= this.Bottom_left_point.Y &&
-               other_right_bottom_point.X >= this.Middle_left_point.X&&
-               other_right_bottom_point.X <= this.Middle_right_point.X)
+            if (Math.Abs(other_right_bottom_point.Y) >= Math.Abs(this.Top_left_point.Y) &&
+                Math.Abs(other_right_bottom_point.Y) <= Math.Abs(this.Bottom_left_point.Y) &&
+                Math.Abs(other_right_bottom_point.X) >= Math.Abs(this.Middle_left_point.X) &&
+                Math.Abs(other_right_bottom_point.X) <= Math.Abs(this.Middle_right_point.X))
             {
                 answer = true;
             }
@@ -225,10 +225,10 @@ namespace Arkanoid
             bool answer = false;
             Point other_top_left_point = other_object_collision_mesh.Top_left_point;
 
-            if (other_top_left_point.Y >= this.Top_left_point.Y &&
-                other_top_left_point.Y <= this.Bottom_left_point.Y &&
-                 other_top_left_point.X <= this.Middle_left_point.X&&
-                  other_top_left_point.X >= this.Middle_right_point.X)
+            if (Math.Abs(other_top_left_point.Y) >= Math.Abs(this.Top_left_point.Y) &&
+                 Math.Abs(other_top_left_point.Y) <= Math.Abs(this.Bottom_left_point.Y) &&
+                  Math.Abs(other_top_left_point.X) <= Math.Abs(this.Middle_left_point.X) &&
+                   Math.Abs(other_top_left_point.X) >= Math.Abs(this.Middle_right_point.X))
             {
                 answer = true;
             }
@@ -241,10 +241,10 @@ namespace Arkanoid
             bool answer = false;
             Point other_left_middle_point = other_object_collision_mesh.Middle_left_point;
 
-            if (other_left_middle_point.Y >= this.Top_left_point.Y &&
-               other_left_middle_point.Y <= this.Bottom_left_point.Y &&
-                other_left_middle_point.X <= this.Middle_left_point.X &&
-                 other_left_middle_point.X >= this.Middle_right_point.X)
+            if (Math.Abs(other_left_middle_point.Y) >= Math.Abs(this.Top_left_point.Y) &&
+                Math.Abs(other_left_middle_point.Y) <= Math.Abs(this.Bottom_left_point.Y) &&
+                 Math.Abs(other_left_middle_point.X) <= Math.Abs(this.Middle_left_point.X) &&
+                  Math.Abs(other_left_middle_point.X) >= Math.Abs(this.Middle_right_point.X))
             {
                 answer = true;
             }
@@ -257,10 +257,10 @@ namespace Arkanoid
             bool answer = false;
             Point other_left_bottom_point = other_object_collision_mesh.Bottom_left_point;
 
-            if (other_left_bottom_point.Y >= this.Top_left_point.Y &&
-               other_left_bottom_point.Y <= this.Bottom_left_point.Y &&
-               other_left_bottom_point.X <= this.Middle_left_point.X&&
-                other_left_bottom_point.X >= this.Middle_right_point.X)
+            if (Math.Abs(other_left_bottom_point.Y) >= Math.Abs(this.Top_left_point.Y) &&
+                Math.Abs(other_left_bottom_point.Y) <= Math.Abs(this.Bottom_left_point.Y) &&
+                Math.Abs(other_left_bottom_point.X) <= Math.Abs(this.Middle_left_point.X) &&
+                 Math.Abs(other_left_bottom_point.X) >= Math.Abs(this.Middle_right_point.X))
             {
                 answer = true;
             }

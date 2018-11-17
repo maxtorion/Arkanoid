@@ -181,15 +181,28 @@ namespace Arkanoid
             };
 
             this.addNewObjectToTheScreen(wallsIDs[0],
-                new GameObject(null,new Rectangle(-20,0,20,this.ScreenBoundary.WindowHeight),Color.White));
+                new GameObject(null,new Rectangle(-3,0,3,this.ScreenBoundary.WindowHeight),Color.White));
 
             this.addNewObjectToTheScreen(wallsIDs[1],
-               new GameObject(null, new Rectangle(0, -20, screenBoundaries.WindowWidth,20), Color.White));
+               new GameObject(null, new Rectangle(0, 1, screenBoundaries.WindowWidth,3), Color.White));
 
             this.addNewObjectToTheScreen(wallsIDs[2],
-               new GameObject(null, new Rectangle(screenBoundaries.WindowWidth, 0, 20, this.ScreenBoundary.WindowHeight), Color.White));
+               new GameObject(null, new Rectangle(screenBoundaries.WindowWidth, 0, 3, this.ScreenBoundary.WindowHeight), Color.White));
 
             return wallsIDs;
+        }
+
+        public bool checkIfObjectIsBeyondBottomOfTheScreen(string objectName)
+        {
+            CollisionMesh gameObjectCollisionMesh = this.GetGameObject(objectName).CollisionMesh;
+            bool answer = false;
+
+            if (gameObjectCollisionMesh.Top_middle_point.Y >= this.ScreenBoundary.WindowHeight)
+            {
+                answer = true;
+            }
+            return answer;
+
         }
 
         
