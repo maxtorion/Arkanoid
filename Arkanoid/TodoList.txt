@@ -1,6 +1,6 @@
 ﻿ARKANOID:
 // Gotowe: 
-// Do Sprawdzenia: 1
+// Do Sprawdzenia: 1, 2, 7
 1) Układ klocków wczytywany z pliku tekstowego - Michał
 	SYSTEM GENEROWANIA Z PLIKU
 	Dodatkowe info:
