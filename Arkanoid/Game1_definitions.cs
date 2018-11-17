@@ -63,6 +63,17 @@ namespace Arkanoid
                 shoot_ball(screenManager.getScreen(GameStatesEnum.GAME).GetGameObject("ball").MovmentVector.X_movment * (-1),
                    screenManager.getScreen(GameStatesEnum.GAME).GetGameObject("ball").MovmentVector.Y_movment );
         }
+        protected bool isGameOver()
+        {
+            bool answer = false;
+
+            if(lives == 0 || blocks.Count==0)
+            {
+                answer = true;
+            }
+
+            return answer;
+        }
 
 
     }

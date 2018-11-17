@@ -20,7 +20,7 @@ namespace Arkanoid
         ContentLoader<SpriteFont> fontLoader;
         GameObjectsGenerator gameObjectsGenerator;
         FontGenerator fontGenerator;
-        Screen splashScreen, menuScreen, gameScreen;
+        Screen splashScreen, menuScreen, gameScreen,summaryScreen;
         ScreenManager screenManager;
         MouseState newMouseState, oldMouseState;
         Dictionary<string, bool> collisionDictionary;

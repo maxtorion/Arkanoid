@@ -78,10 +78,12 @@ namespace Arkanoid
             splashScreen = new Screen(graphics.GraphicsDevice);
             menuScreen = new Screen(graphics.GraphicsDevice);
             gameScreen = new Screen(graphics.GraphicsDevice);
+            summaryScreen = new Screen(graphics.GraphicsDevice);
 
             screenManager.addScreen(GameStatesEnum.SPLASH, splashScreen);
             screenManager.addScreen(GameStatesEnum.MENU, menuScreen);
             screenManager.addScreen(GameStatesEnum.GAME, gameScreen);
+            screenManager.addScreen(GameStatesEnum.SUMMARY, summaryScreen);
 
             gameObjectsGenerator.GenerateContent(new List<string>() {"tlo","splash", "ball", "paddle", "menu"},
                 textureLoader.getListedContent(textures_locations));
@@ -124,6 +126,8 @@ namespace Arkanoid
 
           objectToNotRemoveOnCollision.Add("paddle");
 
+          names_to_load = new List<string>() { "tlo" };
+          screenManager.getScreen(GameStatesEnum.SUMMARY).addObjectsAsABackGround(names_to_load, gameObjectsGenerator.getListOfGameObjects(names_to_load));
 
         }
 
@@ -213,6 +217,9 @@ namespace Arkanoid
                         {
                             screenManager.getScreen(GameStatesEnum.GAME).removeObject(pottentialCollisionObjectName);
                             blocks.Remove(pottentialCollisionObjectName);
+                            points++;
+                            screenManager.changeTextOfTheFontOnScreen(GameStatesEnum.GAME, "points_font", "Points: " + points);
+                           
 
                         }
                        
@@ -222,8 +229,14 @@ namespace Arkanoid
                     if (screenManager.getScreen(GameStatesEnum.GAME).checkIfObjectIsBeyondBottomOfTheScreen("ball"))
                     {
                         set_up_ball();
+                        lives--;
+                        screenManager.changeTextOfTheFontOnScreen(GameStatesEnum.GAME, "life_font", "Lives: " + lives);
 
 
+                    }
+                    if (isGameOver())
+                    {
+                        currentGameState = GameStatesEnum.SUMMARY;
                     }
                 }
                
