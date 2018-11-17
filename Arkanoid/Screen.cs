@@ -16,10 +16,13 @@ namespace Arkanoid
     class Screen
     {
         private Dictionary<string,GameObject> gameObjectsOnScreen;
+        private Dictionary<string, FontObject> fontsOnScreen;
+
         private ScreenBoundaries screenBoundaries;
         
         internal Dictionary<string, GameObject> GameObjectsOnScreen { get => gameObjectsOnScreen; set => gameObjectsOnScreen = value; }
         internal ScreenBoundaries ScreenBoundary { get => screenBoundaries; set => screenBoundaries = value; }
+        internal Dictionary<string, FontObject> FontsOnScreen { get => fontsOnScreen; set => fontsOnScreen = value; }
 
         internal struct ScreenBoundaries
         {
@@ -57,6 +60,7 @@ namespace Arkanoid
         public Screen(GraphicsDevice graphicsDevice)
         {
             this.gameObjectsOnScreen = new Dictionary<string, GameObject>();
+            this.FontsOnScreen = new Dictionary<string, FontObject>();
             this.screenBoundaries = new ScreenBoundaries(graphicsDevice);
         }
 
@@ -76,9 +80,35 @@ namespace Arkanoid
             return foundObject;
         }
 
+        public FontObject GetFontObject(string name)
+        {
+
+            FontObject foundObject;
+            try
+            {
+                foundObject = FontsOnScreen[name];
+
+            }
+            catch (System.Collections.Generic.KeyNotFoundException)
+            {
+                foundObject = null;
+
+            }
+            return foundObject;
+        }
+        public void setTextInChosenFontObject(string fontName, string new_text)
+        {
+            this.GetFontObject(fontName).Text = new_text;
+        }
+
         public void addNewObjectToTheScreen(string name,GameObject gameObject)
         {
             GameObjectsOnScreen.Add(name,gameObject);
+
+        }
+        public void addNewFontToTheScreen(string name, FontObject font)
+        {
+            fontsOnScreen.Add(name, font);
 
         }
         public void addNewObjectsToTheScreen(List<string> names,List<GameObject> gameObjects)
@@ -86,6 +116,13 @@ namespace Arkanoid
             for (int i = 0; i < names.Count; i++)
             {
                 this.addNewObjectToTheScreen(names[i], gameObjects[i]);
+            }
+        }
+        public void addNewFontsToTheScreen(List<string> names, List<FontObject> fonts)
+        {
+            for (int i = 0; i < names.Count; i++)
+            {
+                this.addNewFontToTheScreen(names[i], fonts[i]);
             }
         }
         public void addNewObjectsToTheScreen(Dictionary<string,GameObject> dictOfGameObjects)
@@ -124,6 +161,14 @@ namespace Arkanoid
 
 
         }
+        public void moveFontToTheNewLocation(string objectName, Point location)
+        {
+
+            this.GetFontObject(objectName).moveObject(location);
+
+
+        }
+
         public void removeObject(string objectName)
         {
             this.gameObjectsOnScreen.Remove(objectName);
@@ -139,6 +184,8 @@ namespace Arkanoid
         public void DrawScreen(SpriteBatch spriteBatch)
         {
             GameObjectsOnScreen.Values.ToArray().ToList().ForEach(gameObject => gameObject.DrawGameObject(spriteBatch));
+            FontsOnScreen.Values.ToArray().ToList().ForEach(fontObject => fontObject.DrawFontObject(spriteBatch));
+
         }
         public void AnimateScreen()
         {

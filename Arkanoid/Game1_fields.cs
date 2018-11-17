@@ -18,15 +18,16 @@ namespace Arkanoid
         SpriteBatch spriteBatch;
         ContentLoader<Texture2D> textureLoader;
         ContentLoader<SpriteFont> fontLoader;
-        ContentGenerator contentGenerator;
+        GameObjectsGenerator gameObjectsGenerator;
+        FontGenerator fontGenerator;
         Screen splashScreen, menuScreen, gameScreen;
         ScreenManager screenManager;
         MouseState newMouseState, oldMouseState;
         Dictionary<string, bool> collisionDictionary;
         List<string> objectToNotRemoveOnCollision;
         List<string> blocks;
-        int lifes;
-        int points;
+        int lives = 3;
+        int points = 0;
 
         bool wasBallShoot = false;
         int x_speed = 3;

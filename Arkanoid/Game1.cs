@@ -28,7 +28,8 @@ namespace Arkanoid
 
             textureLoader = new ContentLoader<Texture2D>();
             fontLoader = new ContentLoader<SpriteFont>();
-            contentGenerator = new ContentGenerator();
+            gameObjectsGenerator = new GameObjectsGenerator();
+            fontGenerator = new FontGenerator();
             screenManager = new ScreenManager();
             collisionDictionary = new Dictionary<string, bool>();
             collisionDictionary.Add("TOP", false);
@@ -37,6 +38,7 @@ namespace Arkanoid
             collisionDictionary.Add("RIGHT", false);
 
             blocks = new List<string>();
+            
 
             
 
@@ -81,32 +83,42 @@ namespace Arkanoid
             screenManager.addScreen(GameStatesEnum.MENU, menuScreen);
             screenManager.addScreen(GameStatesEnum.GAME, gameScreen);
 
-            contentGenerator.GenerateContent(new List<string>() {"tlo","splash", "ball", "paddle", "menu"},
+            gameObjectsGenerator.GenerateContent(new List<string>() {"tlo","splash", "ball", "paddle", "menu"},
                 textureLoader.getListedContent(textures_locations));
 
 
             List<string> names_to_load = new List<string>() { "tlo", "splash" };
-            screenManager.getScreen(GameStatesEnum.SPLASH).addObjectsAsABackGround(names_to_load,contentGenerator.getListOfGameObjects(names_to_load));
+            screenManager.getScreen(GameStatesEnum.SPLASH).addObjectsAsABackGround(names_to_load,gameObjectsGenerator.getListOfGameObjects(names_to_load));
 
             names_to_load = new List<string>() { "tlo", "menu" };
-            screenManager.getScreen(GameStatesEnum.MENU).addObjectsAsABackGround(names_to_load,contentGenerator.getListOfGameObjects(names_to_load));
+            screenManager.getScreen(GameStatesEnum.MENU).addObjectsAsABackGround(names_to_load,gameObjectsGenerator.getListOfGameObjects(names_to_load));
 
 
-            screenManager.getScreen(GameStatesEnum.GAME).addObjectAsABackGround("tlo",contentGenerator.getGameObject("tlo"));
+            screenManager.getScreen(GameStatesEnum.GAME).addObjectAsABackGround("tlo",gameObjectsGenerator.getGameObject("tlo"));
             names_to_load = new List<string>() { "ball", "paddle" };
-            screenManager.getScreen(GameStatesEnum.GAME).addNewObjectsToTheScreen(names_to_load, contentGenerator.getListOfGameObjects(names_to_load));
+            screenManager.getScreen(GameStatesEnum.GAME).addNewObjectsToTheScreen(names_to_load, gameObjectsGenerator.getListOfGameObjects(names_to_load));
+
+            names_to_load = new List<string>() { "points_font", "life_font" };
+            fontGenerator.GenerateContent(names_to_load,
+                new List<SpriteFont>() { fontLoader.getContent(fonts_locations[0]), fontLoader.getContent(fonts_locations[0]) });
+
+            screenManager.getScreen(GameStatesEnum.GAME).addNewFontsToTheScreen(names_to_load,fontGenerator.getListOfFontObjects(names_to_load));
+
+            screenManager.moveFontOnTheScreen(GameStatesEnum.GAME, "points_font", new Point(20, 420));
+            screenManager.changeTextOfTheFontOnScreen(GameStatesEnum.GAME, "points_font", "Points: "+ points);
+
+            screenManager.moveFontOnTheScreen(GameStatesEnum.GAME, "life_font", new Point(700, 420));
+            screenManager.changeTextOfTheFontOnScreen(GameStatesEnum.GAME, "life_font", "Lives: " + lives);
 
 
-
-
-           mapGenerator.generateBlocksFromFile(Directory.GetCurrentDirectory().ToString() + "\\Coordinates.txt", contentGenerator, textureLoader);
+            mapGenerator.generateBlocksFromFile(Directory.GetCurrentDirectory().ToString() + "\\Coordinates.txt", gameObjectsGenerator, textureLoader);
             names_to_load = new List<string>();
             for (int i = 0; i < mapGenerator.BoxName.Length; i++)
                 names_to_load.Add(mapGenerator.BoxNameExact(i));
 
           blocks = names_to_load;
          
-          screenManager.getScreen(GameStatesEnum.GAME).addNewObjectsToTheScreen(names_to_load, contentGenerator.getListOfGameObjects(names_to_load));
+          screenManager.getScreen(GameStatesEnum.GAME).addNewObjectsToTheScreen(names_to_load, gameObjectsGenerator.getListOfGameObjects(names_to_load));
 
           objectToNotRemoveOnCollision = screenManager.getScreen(GameStatesEnum.GAME).generateScreenWalls();
 

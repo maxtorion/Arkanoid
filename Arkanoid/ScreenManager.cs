@@ -60,6 +60,14 @@ namespace Arkanoid
         {
             this.screens[selectedScreen].moveObjectToTheNewLocation(name, location);
         }
+        public void moveFontOnTheScreen(GameStatesEnum selectedScreen, string name, Point location)
+        {
+            this.screens[selectedScreen].moveFontToTheNewLocation(name, location);
+        }
+        public void changeTextOfTheFontOnScreen(GameStatesEnum selectedScreen, string name, string new_text)
+        {
+            this.screens[selectedScreen].setTextInChosenFontObject(name, new_text);
+        }
 
        
     }

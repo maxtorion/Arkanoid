@@ -20,7 +20,7 @@ namespace Arkanoid
         internal string BoxNameExact (int i) { return boxName[i]; }
         
 
-        internal void generateBlocksFromFile(String path, ContentGenerator contentGenerator, ContentLoader<Texture2D> contentLoader)
+        internal void generateBlocksFromFile(String path, GameObjectsGenerator contentGenerator, ContentLoader<Texture2D> contentLoader)
         {
             string[] file = File.ReadAllLines(path);
             char[] separator = { ' ' };
