@@ -113,11 +113,7 @@ namespace Arkanoid
             screenManager.moveFontOnTheScreen(GameStatesEnum.SUMMARY, "summary_text_font", new Point(GraphicsDevice.Viewport.Bounds.Width / 2 - 50, 50));
             screenManager.changeTextOfTheFontOnScreen(GameStatesEnum.SUMMARY, "summary_text_font", "Game over");
 
-            screenManager.moveFontOnTheScreen(GameStatesEnum.SUMMARY, "summary_point_font", new Point(GraphicsDevice.Viewport.Bounds.Width / 2 - 63, 80));
-            screenManager.changeTextOfTheFontOnScreen(GameStatesEnum.SUMMARY, "summary_point_font", "Your points: " + points);
-
-            screenManager.moveFontOnTheScreen(GameStatesEnum.SUMMARY, "summary_life_font", new Point(GraphicsDevice.Viewport.Bounds.Width / 2 - 50, 110));
-            screenManager.changeTextOfTheFontOnScreen(GameStatesEnum.SUMMARY, "summary_life_font", "Your life: " + lives);
+            
 
             screenManager.moveFontOnTheScreen(GameStatesEnum.SUMMARY, "summary_text2_font", new Point(GraphicsDevice.Viewport.Bounds.Width / 2 - 60, 140));
             screenManager.changeTextOfTheFontOnScreen(GameStatesEnum.SUMMARY, "summary_text2_font", "Back to menu");
@@ -345,10 +341,17 @@ namespace Arkanoid
             }
             else if (currentGameState == GameStatesEnum.SUMMARY)
             {
+                screenManager.moveFontOnTheScreen(GameStatesEnum.SUMMARY, "summary_point_font", new Point(GraphicsDevice.Viewport.Bounds.Width / 2 - 63, 80));
+                screenManager.changeTextOfTheFontOnScreen(GameStatesEnum.SUMMARY, "summary_point_font", "Your points: " + points);
+
+                screenManager.moveFontOnTheScreen(GameStatesEnum.SUMMARY, "summary_life_font", new Point(GraphicsDevice.Viewport.Bounds.Width / 2 - 50, 110));
+                screenManager.changeTextOfTheFontOnScreen(GameStatesEnum.SUMMARY, "summary_life_font", "Your life: " + lives);
+
                 if (wasMouseLeftButtonClickedAndReleased() &&
                     (newMouseState.Position.X >= 350 && newMouseState.Position.X <= 390) &&
                     (newMouseState.Position.Y >= 170 && newMouseState.Position.Y <= 190))
                 {
+
                     Reset();
                     currentGameState = GameStatesEnum.GAME;
                 }
