@@ -56,7 +56,6 @@
     <Compile Include="MovmentVector.cs" />
     <Compile Include="OneLifePowerUp.cs" />
     <Compile Include="IPowerUp.cs" />
-    <Compile Include="Pause.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Punkt.cs" />

@@ -49,10 +49,9 @@ namespace Arkanoid
 
             screenManager.getScreen(GameStatesEnum.GAME).GetGameObject("ball").MovmentVector = new MovmentVector(0, 0);
             screenManager.getScreen(GameStatesEnum.GAME).moveObjectToTheNewLocation("ball", new Point(paddle.ObjectShape.X + (paddle.ObjectShape.Width / 2)-(ball_width/2),
-                paddle.ObjectShape.Y - 40));
-
-
+                paddle.ObjectShape.Y - 20));
         }
+
         protected void shoot_ball(int x_direction, int y_direction)
         {
             screenManager.getScreen(GameStatesEnum.GAME).GetGameObject("ball").MovmentVector = new MovmentVector(x_direction, y_direction);
@@ -111,6 +110,7 @@ namespace Arkanoid
             names_to_load = new List<string>();
             foreach (string i in names_of_remove)
             {
+                Console.WriteLine(i);
                 names_to_load.Add(i);
                 blocks.Add(i);
             }

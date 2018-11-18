@@ -7,10 +7,9 @@ using System.IO;
 
 namespace Arkanoid
 {
-    //W tej części wywoływać funkcję związane z grą
+
     public partial class Game1 : Game
     {
-
         MapGenerator mapGenerator = new MapGenerator();
 
         public Game1()
@@ -31,12 +30,13 @@ namespace Arkanoid
             collisionDictionary.Add("RIGHT", false);
 
             blocks = new List<string>();
+
         }
 
         protected override void Initialize()
         {
             base.Initialize();
-         }
+        }
 
         protected override void LoadContent()
         {
@@ -65,6 +65,7 @@ namespace Arkanoid
             names_to_load = new List<string>() { "tlo", "menu" };
             screenManager.getScreen(GameStatesEnum.MENU).addObjectsAsABackGround(names_to_load,gameObjectsGenerator.getListOfGameObjects(names_to_load));
 
+            
             screenManager.getScreen(GameStatesEnum.GAME).addObjectAsABackGround("tlo",gameObjectsGenerator.getGameObject("tlo"));
             names_to_load = new List<string>() { "ball", "paddle" };
             screenManager.getScreen(GameStatesEnum.GAME).addNewObjectsToTheScreen(names_to_load, gameObjectsGenerator.getListOfGameObjects(names_to_load));
@@ -94,10 +95,11 @@ namespace Arkanoid
           blocks = names_to_load;
          
           screenManager.getScreen(GameStatesEnum.GAME).addNewObjectsToTheScreen(names_to_load, gameObjectsGenerator.getListOfGameObjects(names_to_load));
+
           objectToNotRemoveOnCollision = screenManager.getScreen(GameStatesEnum.GAME).generateScreenWalls();
+
           objectToNotRemoveOnCollision.Add("paddle");
 
-            // Summary
           names_to_load = new List<string>() { "tlo" };
           screenManager.getScreen(GameStatesEnum.SUMMARY).addObjectsAsABackGround(names_to_load, gameObjectsGenerator.getListOfGameObjects(names_to_load));
 
@@ -126,7 +128,6 @@ namespace Arkanoid
             screenManager.moveFontOnTheScreen(GameStatesEnum.SUMMARY, "summary_no_font", new Point(GraphicsDevice.Viewport.Bounds.Width / 2 + 20, 170));
             screenManager.changeTextOfTheFontOnScreen(GameStatesEnum.SUMMARY, "summary_no_font", "No" );
 
-
             names_to_load = new List<string>() { "tlo" };
             screenManager.getScreen(GameStatesEnum.PAUSE).addObjectsAsABackGround(names_to_load, gameObjectsGenerator.getListOfGameObjects(names_to_load));
 
@@ -149,10 +150,7 @@ namespace Arkanoid
             screenManager.changeTextOfTheFontOnScreen(GameStatesEnum.PAUSE, "pause_life", "Lives: " + lives);
         }
 
-        protected override void UnloadContent()
-        {
-           
-        }
+        protected override void UnloadContent()    {   }
 
         protected override void Update(GameTime gameTime)
         {
@@ -184,12 +182,15 @@ namespace Arkanoid
                   (newMouseState.Position.X >= 500 && newMouseState.Position.X <= 650) &&
                   (newMouseState.Position.Y > 220 && newMouseState.Position.Y <= 300))
                     Exit();
-
             }
 
             else if(currentGameState == GameStatesEnum.PAUSE)
+            {
                 if (Keyboard.GetState().IsKeyDown(Keys.U))
+                {
                     Try_to_unpause_a_game(x_speed, y_speed);
+                }
+            }
 
             else if (currentGameState == GameStatesEnum.GAME) {
                 screenManager.changeTextOfTheFontOnScreen(GameStatesEnum.GAME, "points_font", "Points: " + points);
@@ -213,7 +214,6 @@ namespace Arkanoid
                 }
                 else
                 {
-
                     List<string> objectsToCheck = new List<string>();
                     objectsToCheck.Add("paddle");
                     blocks.ForEach(block => objectsToCheck.Add(block));
@@ -233,6 +233,7 @@ namespace Arkanoid
                             screenManager.changeTextOfTheFontOnScreen(GameStatesEnum.GAME, "points_font", "Points: " + points);
                         }
                         deflectBall();
+
                     }
                     if (screenManager.getScreen(GameStatesEnum.GAME).checkIfObjectIsBeyondBottomOfTheScreen("ball"))
                     {
@@ -253,7 +254,7 @@ namespace Arkanoid
                     screenManager.changeTextOfTheFontOnScreen(GameStatesEnum.PAUSE, "pause_life", "Lives: " + lives);
                     Try_to_pause_a_game();
                 }
-             }
+            }
             else if (currentGameState == GameStatesEnum.SUMMARY)
             {
                 if (wasMouseLeftButtonClickedAndReleased() &&
@@ -266,7 +267,9 @@ namespace Arkanoid
                 else if (wasMouseLeftButtonClickedAndReleased() &&
                     (newMouseState.Position.X >= 420 && newMouseState.Position.X <= 450) &&
                     (newMouseState.Position.Y >= 170 && newMouseState.Position.Y <= 190))
+                {
                     Exit();
+                }
             }
             oldMouseState = newMouseState;
 
