@@ -14,22 +14,28 @@ namespace Arkanoid
     //W tej części deklarować pola
     public partial class Game1:Game
     {
+        List<string> names_to_load = new List<string>();
+        List<string> names_of_remove = new List<string>();
         GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
         ContentLoader<Texture2D> textureLoader;
         ContentLoader<SpriteFont> fontLoader;
         GameObjectsGenerator gameObjectsGenerator;
+        GameObject paddle;
         FontGenerator fontGenerator;
-        Screen splashScreen, menuScreen, gameScreen,summaryScreen;
+        Screen splashScreen, menuScreen, gameScreen, pauseScreen, summaryScreen;
         ScreenManager screenManager;
         MouseState newMouseState, oldMouseState;
         Dictionary<string, bool> collisionDictionary;
         List<string> objectToNotRemoveOnCollision;
         List<string> blocks;
+        int currentVectorX;
+        int currentVectorY;
         List<string> powerUps;
         string currentPowerUp = null;
         int lives = 3;
         int points = 0;
+        bool is_game_paused = false;
 
         bool wasBallShoot = false;
         bool wasPaddleProlonged = false, wasPaddleShorthened = false;
@@ -37,7 +43,7 @@ namespace Arkanoid
         int y_speed = 3;
 
         GameStatesEnum currentGameState = GameStatesEnum.SPLASH;
-        //Kolejność jest ważna, więc nie mieszać!!!!
+        //Kolejność jest ważna
         private List<string> textures_locations = new List<string>() {
             "images\\tlo",
             "images\\splash",
@@ -59,9 +65,5 @@ namespace Arkanoid
         private List<string>fonts_locations = new List<string>() {
             "fonts\\wynik",
         };
-
-
-
-       
     }
 }

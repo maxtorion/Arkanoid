@@ -7,16 +7,9 @@ using System.IO;
 
 namespace Arkanoid
 {
-    /// <summary>
-    /// This is the main type for your game.
-    /// </summary>
-    
-
     //W tej części wywoływać funkcję związane z grą
     public partial class Game1 : Game
     {
-
-
 
         MapGenerator mapGenerator = new MapGenerator();
 
@@ -38,71 +31,47 @@ namespace Arkanoid
             collisionDictionary.Add("RIGHT", false);
 
             blocks = new List<string>();
-            
-
-            
-
         }
 
-        /// <summary>
-        /// Allows the game to perform any initialization it needs to before starting to run.
-        /// This is where it can query for any required services and load any non-graphic
-        /// related content.  Calling base.Initialize will enumerate through any components
-        /// and initialize them as well.
-        /// </summary>
         protected override void Initialize()
         {
-            // TODO: Add your initialization logic here
-
             base.Initialize();
-           
-          
+         }
 
-        }
-
-        /// <summary>
-        /// LoadContent will be called once per game and is the place to load
-        /// all of your content.
-        /// </summary>
         protected override void LoadContent()
         {
-            // Create a new SpriteBatch, which can be used to draw textures.
             spriteBatch = new SpriteBatch(GraphicsDevice);
-
-            // TODO: use this.Content to load your game content here
-
             textureLoader.Load(Content,textures_locations);
             fontLoader.Load(Content,fonts_locations);
 
-            //TODO: tu rozdzielać zawartość ContentLoaderów do Screenów
             splashScreen = new Screen(graphics.GraphicsDevice);
             menuScreen = new Screen(graphics.GraphicsDevice);
             gameScreen = new Screen(graphics.GraphicsDevice);
+            pauseScreen = new Screen(graphics.GraphicsDevice);
             summaryScreen = new Screen(graphics.GraphicsDevice);
 
             screenManager.addScreen(GameStatesEnum.SPLASH, splashScreen);
             screenManager.addScreen(GameStatesEnum.MENU, menuScreen);
             screenManager.addScreen(GameStatesEnum.GAME, gameScreen);
+            screenManager.addScreen(GameStatesEnum.PAUSE, pauseScreen);
             screenManager.addScreen(GameStatesEnum.SUMMARY, summaryScreen);
 
             gameObjectsGenerator.GenerateContent(new List<string>() {"tlo","splash", "ball", "paddle", "menu"},
                 textureLoader.getListedContent(textures_locations));
 
-
-            List<string> names_to_load = new List<string>() { "tlo", "splash" };
+            names_to_load = new List<string>() { "tlo", "splash" };
             screenManager.getScreen(GameStatesEnum.SPLASH).addObjectsAsABackGround(names_to_load,gameObjectsGenerator.getListOfGameObjects(names_to_load));
 
             names_to_load = new List<string>() { "tlo", "menu" };
             screenManager.getScreen(GameStatesEnum.MENU).addObjectsAsABackGround(names_to_load,gameObjectsGenerator.getListOfGameObjects(names_to_load));
 
-
             screenManager.getScreen(GameStatesEnum.GAME).addObjectAsABackGround("tlo",gameObjectsGenerator.getGameObject("tlo"));
             names_to_load = new List<string>() { "ball", "paddle" };
             screenManager.getScreen(GameStatesEnum.GAME).addNewObjectsToTheScreen(names_to_load, gameObjectsGenerator.getListOfGameObjects(names_to_load));
 
-            names_to_load = new List<string>() { "points_font", "life_font" };
+            names_to_load = new List<string>() { "points_font", "life_font", "pause_fonts" };
             fontGenerator.GenerateContent(names_to_load,
-                new List<SpriteFont>() { fontLoader.getContent(fonts_locations[0]), fontLoader.getContent(fonts_locations[0]) });
+                new List<SpriteFont>() { fontLoader.getContent(fonts_locations[0]), fontLoader.getContent(fonts_locations[0]), fontLoader.getContent(fonts_locations[0]) });
 
             screenManager.getScreen(GameStatesEnum.GAME).addNewFontsToTheScreen(names_to_load,fontGenerator.getListOfFontObjects(names_to_load));
 
@@ -112,23 +81,72 @@ namespace Arkanoid
             screenManager.moveFontOnTheScreen(GameStatesEnum.GAME, "life_font", new Point(700, 420));
             screenManager.changeTextOfTheFontOnScreen(GameStatesEnum.GAME, "life_font", "Lives: " + lives);
 
+            screenManager.moveFontOnTheScreen(GameStatesEnum.GAME, "pause_fonts", new Point(GraphicsDevice.Viewport.Bounds.Width / 2 - 50, 420));
+            screenManager.changeTextOfTheFontOnScreen(GameStatesEnum.GAME, "pause_fonts", "Pause: P" );
 
-            mapGenerator.generateBlocksFromFile(Directory.GetCurrentDirectory().ToString() + "\\Coordinates.txt", gameObjectsGenerator, textureLoader);
+            string path = Path.GetFullPath(Path.Combine(Directory.GetCurrentDirectory(), @"..\..\..\..\Content\Coordinates.txt"));
+            mapGenerator.generateBlocksFromFile(path, gameObjectsGenerator, textureLoader);
+
             names_to_load = new List<string>();
-            for (int i = 0; i < mapGenerator.BoxName.Length; i++)
-                names_to_load.Add(mapGenerator.BoxNameExact(i));
+            foreach (string i in mapGenerator.BoxName)
+                names_to_load.Add(i);
 
           blocks = names_to_load;
          
           screenManager.getScreen(GameStatesEnum.GAME).addNewObjectsToTheScreen(names_to_load, gameObjectsGenerator.getListOfGameObjects(names_to_load));
-
           objectToNotRemoveOnCollision = screenManager.getScreen(GameStatesEnum.GAME).generateScreenWalls();
-
           objectToNotRemoveOnCollision.Add("paddle");
 
+            // Summary
           names_to_load = new List<string>() { "tlo" };
           screenManager.getScreen(GameStatesEnum.SUMMARY).addObjectsAsABackGround(names_to_load, gameObjectsGenerator.getListOfGameObjects(names_to_load));
 
+            names_to_load = new List<string>() { "summary_text_font", "summary_point_font", "summary_life_font", "summary_text2_font", "summary_yes_font", "summary_no_font", };
+            fontGenerator.GenerateContent(names_to_load,
+                new List<SpriteFont>() { fontLoader.getContent(fonts_locations[0]), fontLoader.getContent(fonts_locations[0]), fontLoader.getContent(fonts_locations[0]),
+                    fontLoader.getContent(fonts_locations[0]), fontLoader.getContent(fonts_locations[0]), fontLoader.getContent(fonts_locations[0]) });
+
+            screenManager.getScreen(GameStatesEnum.SUMMARY).addNewFontsToTheScreen(names_to_load, fontGenerator.getListOfFontObjects(names_to_load));
+
+            screenManager.moveFontOnTheScreen(GameStatesEnum.SUMMARY, "summary_text_font", new Point(GraphicsDevice.Viewport.Bounds.Width / 2 - 50, 50));
+            screenManager.changeTextOfTheFontOnScreen(GameStatesEnum.SUMMARY, "summary_text_font", "Game over");
+
+            screenManager.moveFontOnTheScreen(GameStatesEnum.SUMMARY, "summary_point_font", new Point(GraphicsDevice.Viewport.Bounds.Width / 2 - 63, 80));
+            screenManager.changeTextOfTheFontOnScreen(GameStatesEnum.SUMMARY, "summary_point_font", "Your points: " + points);
+
+            screenManager.moveFontOnTheScreen(GameStatesEnum.SUMMARY, "summary_life_font", new Point(GraphicsDevice.Viewport.Bounds.Width / 2 - 50, 110));
+            screenManager.changeTextOfTheFontOnScreen(GameStatesEnum.SUMMARY, "summary_life_font", "Your life: " + lives);
+
+            screenManager.moveFontOnTheScreen(GameStatesEnum.SUMMARY, "summary_text2_font", new Point(GraphicsDevice.Viewport.Bounds.Width / 2 - 60, 140));
+            screenManager.changeTextOfTheFontOnScreen(GameStatesEnum.SUMMARY, "summary_text2_font", "Back to menu");
+
+            screenManager.moveFontOnTheScreen(GameStatesEnum.SUMMARY, "summary_yes_font", new Point(GraphicsDevice.Viewport.Bounds.Width / 2 - 50, 170));
+            screenManager.changeTextOfTheFontOnScreen(GameStatesEnum.SUMMARY, "summary_yes_font", "Yes");
+
+            screenManager.moveFontOnTheScreen(GameStatesEnum.SUMMARY, "summary_no_font", new Point(GraphicsDevice.Viewport.Bounds.Width / 2 + 20, 170));
+            screenManager.changeTextOfTheFontOnScreen(GameStatesEnum.SUMMARY, "summary_no_font", "No" );
+
+
+            names_to_load = new List<string>() { "tlo" };
+            screenManager.getScreen(GameStatesEnum.PAUSE).addObjectsAsABackGround(names_to_load, gameObjectsGenerator.getListOfGameObjects(names_to_load));
+
+            names_to_load = new List<string>() { "pause_font", "unpause_font", "pause_point", "pause_life" };
+            fontGenerator.GenerateContent(names_to_load,
+                new List<SpriteFont>() { fontLoader.getContent(fonts_locations[0]), fontLoader.getContent(fonts_locations[0]),
+                    fontLoader.getContent(fonts_locations[0]), fontLoader.getContent(fonts_locations[0]) });
+
+            screenManager.getScreen(GameStatesEnum.PAUSE).addNewFontsToTheScreen(names_to_load, fontGenerator.getListOfFontObjects(names_to_load));
+            screenManager.moveFontOnTheScreen(GameStatesEnum.PAUSE, "pause_font", new Point(GraphicsDevice.Viewport.Bounds.Width / 2 - 50, GraphicsDevice.Viewport.Bounds.Height / 2 - 50));
+            screenManager.changeTextOfTheFontOnScreen(GameStatesEnum.PAUSE, "pause_font", "PAUSE");
+
+            screenManager.moveFontOnTheScreen(GameStatesEnum.PAUSE, "unpause_font", new Point(GraphicsDevice.Viewport.Bounds.Width / 2 - 60, GraphicsDevice.Viewport.Bounds.Height / 2 - 25));
+            screenManager.changeTextOfTheFontOnScreen(GameStatesEnum.PAUSE, "unpause_font", "PRESS: U");
+
+            screenManager.moveFontOnTheScreen(GameStatesEnum.PAUSE, "pause_point", new Point(20, 420));
+            screenManager.changeTextOfTheFontOnScreen(GameStatesEnum.PAUSE, "pause_point", "Points: " + points);
+
+            screenManager.moveFontOnTheScreen(GameStatesEnum.PAUSE, "pause_life", new Point(700, 420));
+            screenManager.changeTextOfTheFontOnScreen(GameStatesEnum.PAUSE, "pause_life", "Lives: " + lives);
             //Utworzenie Power Upów
             powerUps = new List<string>() { "shoot_power", "live_power", "long_power", "short_power" };
             gameObjectsGenerator.GenerateContent(powerUps,
@@ -138,21 +156,10 @@ namespace Arkanoid
 
         }
 
-        /// <summary>
-        /// UnloadContent will be called once per game and is the place to unload
-        /// game-specific content.
-        /// </summary>
         protected override void UnloadContent()
         {
-            // TODO: Unload any non ContentManager content here
+           
         }
-
-        /// <summary>
-        /// Allows the game to run logic such as updating the world,
-        /// checking for collisions, gathering input, and playing audio.
-        /// </summary>
-        /// <param name="gameTime">Provides a snapshot of timing values.</param>
-
 
         protected override void Update(GameTime gameTime)
         {
@@ -172,7 +179,6 @@ namespace Arkanoid
             }
             else if (currentGameState == GameStatesEnum.MENU)
             {
-                //TODO:PLACEHOLDER, trzeba dodać najeżdżanie na opcje i wybór, ale to jak będzie pełnoprawne menu
                 if (wasMouseLeftButtonClickedAndReleased() &&
                     (newMouseState.Position.X >= 470 && newMouseState.Position.X <= 680) &&
                     (newMouseState.Position.Y >= 140 && newMouseState.Position.Y <= 220))
@@ -187,14 +193,21 @@ namespace Arkanoid
                     Exit();
 
             }
-            else if (currentGameState == GameStatesEnum.GAME) {
 
+            else if(currentGameState == GameStatesEnum.PAUSE)
+                if (Keyboard.GetState().IsKeyDown(Keys.U))
+                    Try_to_unpause_a_game(x_speed, y_speed);
                 //Jak mogę to uprościć?
-                if (screenManager.getScreen(GameStatesEnum.GAME).ScreenEventTimer==null)
+             
+
+            else if (currentGameState == GameStatesEnum.GAME) {
+                   if (screenManager.getScreen(GameStatesEnum.GAME).ScreenEventTimer==null)
                 {
                     screenManager.getScreen(GameStatesEnum.GAME).setUpEventTimer(5000,true,PowerUpShowUp);
                 }
-
+                
+                screenManager.changeTextOfTheFontOnScreen(GameStatesEnum.GAME, "points_font", "Points: " + points);
+                screenManager.changeTextOfTheFontOnScreen(GameStatesEnum.GAME, "life_font", "Lives: " + lives);
                 if (newMouseState.X >= 0 &&
                     newMouseState.X <= screenManager.getSelectedScreenWidth(currentGameState)
                     - screenManager.getGameObjectFromTheScreen(currentGameState, "paddle").ObjectShape.Width)
@@ -214,7 +227,7 @@ namespace Arkanoid
                 }
                 else
                 {
-             
+
                     List<string> objectsToCheck = new List<string>();
 
                      objectsToCheck.Add("paddle");
@@ -237,10 +250,9 @@ namespace Arkanoid
                         {
                             screenManager.getScreen(GameStatesEnum.GAME).removeObject(pottentialCollisionObjectName);
                             blocks.Remove(pottentialCollisionObjectName);
+                            names_of_remove.Add(pottentialCollisionObjectName);
                             points++;
                             screenManager.changeTextOfTheFontOnScreen(GameStatesEnum.GAME, "points_font", "Points: " + points);
-                           
-
                         }
                         else if(powerUps.Contains(pottentialCollisionObjectName))
                         {
@@ -260,43 +272,45 @@ namespace Arkanoid
                         set_up_ball();
                         lives--;
                         screenManager.changeTextOfTheFontOnScreen(GameStatesEnum.GAME, "life_font", "Lives: " + lives);
-
-
                     }
                     if (isGameOver())
                     {
+                        this.IsMouseVisible = true;
                         currentGameState = GameStatesEnum.SUMMARY;
                     }
                 }
-               
-                
 
-                
-               
-                
-
-                   
-
+                if (Keyboard.GetState().IsKeyDown(Keys.P))
+                {
+                    screenManager.changeTextOfTheFontOnScreen(GameStatesEnum.PAUSE, "pause_point", "Points: " + points);
+                    screenManager.changeTextOfTheFontOnScreen(GameStatesEnum.PAUSE, "pause_life", "Lives: " + lives);
+                    Try_to_pause_a_game();
+                }
+             }
+            else if (currentGameState == GameStatesEnum.SUMMARY)
+            {
+                if (wasMouseLeftButtonClickedAndReleased() &&
+                    (newMouseState.Position.X >= 350 && newMouseState.Position.X <= 390) &&
+                    (newMouseState.Position.Y >= 170 && newMouseState.Position.Y <= 190))
+                {
+                    Reset();
+                    currentGameState = GameStatesEnum.GAME;
+                }
+                else if (wasMouseLeftButtonClickedAndReleased() &&
+                    (newMouseState.Position.X >= 420 && newMouseState.Position.X <= 450) &&
+                    (newMouseState.Position.Y >= 170 && newMouseState.Position.Y <= 190))
+                    Exit();
             }
             oldMouseState = newMouseState;
-            // TODO: Add your update logic here
 
             screenManager.getScreen(currentGameState).AnimateScreen();
             base.Update(gameTime);
         }
 
-        /// <summary>
-        /// This is called when the game should draw itself.
-        /// </summary>
-        /// <param name="gameTime">Provides a snapshot of timing values.</param>
         protected override void Draw(GameTime gameTime)
         {
             GraphicsDevice.Clear(Color.CornflowerBlue);
-
-            // TODO: Add your drawing code here
-
             screenManager.DrawSelectedScreen(currentGameState,spriteBatch);
-
             base.Draw(gameTime);
         }
     }
