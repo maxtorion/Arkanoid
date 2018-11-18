@@ -46,7 +46,11 @@ namespace Arkanoid
             "images\\box_green",
             "images\\box_orange",
             "images\\box_red",
-            "images\\box_purple"
+            "images\\box_purple",
+            "images\\powerUP_dative",
+            "images\\powerUP_health",
+            "images\\powerUP_long",
+            "images\\powerUP_short"
         };
 
         private List<string>fonts_locations = new List<string>() {

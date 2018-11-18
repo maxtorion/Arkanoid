@@ -174,6 +174,10 @@ namespace Arkanoid
                     setUpGame();
                     this.IsMouseVisible = false;
                 }
+                else if (wasMouseLeftButtonClickedAndReleased() &&
+                  (newMouseState.Position.X >= 500 && newMouseState.Position.X <= 650) &&
+                  (newMouseState.Position.Y > 220 && newMouseState.Position.Y <= 300))
+                    Exit();
 
             }
             else if (currentGameState == GameStatesEnum.GAME) {
