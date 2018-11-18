@@ -28,9 +28,20 @@ namespace Arkanoid
 
             textureLoader = new ContentLoader<Texture2D>();
             fontLoader = new ContentLoader<SpriteFont>();
-            contentGenerator = new ContentGenerator();
+            gameObjectsGenerator = new GameObjectsGenerator();
+            fontGenerator = new FontGenerator();
             screenManager = new ScreenManager();
+            collisionDictionary = new Dictionary<string, bool>();
+            collisionDictionary.Add("TOP", false);
+            collisionDictionary.Add("BOTTOM", false);
+            collisionDictionary.Add("LEFT", false);
+            collisionDictionary.Add("RIGHT", false);
+
+            blocks = new List<string>();
             
+
+            
+
         }
 
         /// <summary>
@@ -67,32 +78,56 @@ namespace Arkanoid
             splashScreen = new Screen(graphics.GraphicsDevice);
             menuScreen = new Screen(graphics.GraphicsDevice);
             gameScreen = new Screen(graphics.GraphicsDevice);
+            summaryScreen = new Screen(graphics.GraphicsDevice);
 
             screenManager.addScreen(GameStatesEnum.SPLASH, splashScreen);
             screenManager.addScreen(GameStatesEnum.MENU, menuScreen);
             screenManager.addScreen(GameStatesEnum.GAME, gameScreen);
+            screenManager.addScreen(GameStatesEnum.SUMMARY, summaryScreen);
 
-            contentGenerator.GenerateContent(new List<string>() {"tlo","splash", "ball", "paddle", "menu"},
+            gameObjectsGenerator.GenerateContent(new List<string>() {"tlo","splash", "ball", "paddle", "menu"},
                 textureLoader.getListedContent(textures_locations));
 
 
             List<string> names_to_load = new List<string>() { "tlo", "splash" };
-            screenManager.getScreen(GameStatesEnum.SPLASH).addObjectsAsABackGround(names_to_load,contentGenerator.getListOfGameObjects(names_to_load));
+            screenManager.getScreen(GameStatesEnum.SPLASH).addObjectsAsABackGround(names_to_load,gameObjectsGenerator.getListOfGameObjects(names_to_load));
 
             names_to_load = new List<string>() { "tlo", "menu" };
-            screenManager.getScreen(GameStatesEnum.MENU).addObjectsAsABackGround(names_to_load,contentGenerator.getListOfGameObjects(names_to_load));
+            screenManager.getScreen(GameStatesEnum.MENU).addObjectsAsABackGround(names_to_load,gameObjectsGenerator.getListOfGameObjects(names_to_load));
 
 
-            screenManager.getScreen(GameStatesEnum.GAME).addObjectAsABackGround("tlo",contentGenerator.getGameObject("tlo"));
+            screenManager.getScreen(GameStatesEnum.GAME).addObjectAsABackGround("tlo",gameObjectsGenerator.getGameObject("tlo"));
             names_to_load = new List<string>() { "ball", "paddle" };
-            screenManager.getScreen(GameStatesEnum.GAME).addNewObjectsToTheScreen(names_to_load, contentGenerator.getListOfGameObjects(names_to_load));
+            screenManager.getScreen(GameStatesEnum.GAME).addNewObjectsToTheScreen(names_to_load, gameObjectsGenerator.getListOfGameObjects(names_to_load));
 
-            // Access denied
-           mapGenerator.generateBlocksFromFile(Directory.GetCurrentDirectory().ToString() + "\\Coordinates.txt", contentGenerator, textureLoader);
+            names_to_load = new List<string>() { "points_font", "life_font" };
+            fontGenerator.GenerateContent(names_to_load,
+                new List<SpriteFont>() { fontLoader.getContent(fonts_locations[0]), fontLoader.getContent(fonts_locations[0]) });
+
+            screenManager.getScreen(GameStatesEnum.GAME).addNewFontsToTheScreen(names_to_load,fontGenerator.getListOfFontObjects(names_to_load));
+
+            screenManager.moveFontOnTheScreen(GameStatesEnum.GAME, "points_font", new Point(20, 420));
+            screenManager.changeTextOfTheFontOnScreen(GameStatesEnum.GAME, "points_font", "Points: "+ points);
+
+            screenManager.moveFontOnTheScreen(GameStatesEnum.GAME, "life_font", new Point(700, 420));
+            screenManager.changeTextOfTheFontOnScreen(GameStatesEnum.GAME, "life_font", "Lives: " + lives);
+
+
+            mapGenerator.generateBlocksFromFile(Directory.GetCurrentDirectory().ToString() + "\\Coordinates.txt", gameObjectsGenerator, textureLoader);
             names_to_load = new List<string>();
-            foreach (String i in mapGenerator.BoxName)
-                names_to_load.Add(i);
-           screenManager.getScreen(GameStatesEnum.GAME).addNewObjectsToTheScreen(names_to_load, contentGenerator.getListOfGameObjects(names_to_load));
+            for (int i = 0; i < mapGenerator.BoxName.Length; i++)
+                names_to_load.Add(mapGenerator.BoxNameExact(i));
+
+          blocks = names_to_load;
+         
+          screenManager.getScreen(GameStatesEnum.GAME).addNewObjectsToTheScreen(names_to_load, gameObjectsGenerator.getListOfGameObjects(names_to_load));
+
+          objectToNotRemoveOnCollision = screenManager.getScreen(GameStatesEnum.GAME).generateScreenWalls();
+
+          objectToNotRemoveOnCollision.Add("paddle");
+
+          names_to_load = new List<string>() { "tlo" };
+          screenManager.getScreen(GameStatesEnum.SUMMARY).addObjectsAsABackGround(names_to_load, gameObjectsGenerator.getListOfGameObjects(names_to_load));
 
         }
 
@@ -147,10 +182,81 @@ namespace Arkanoid
             }
             else if (currentGameState == GameStatesEnum.GAME) {
 
+                //Jak mogę to uprościć?
+
+                if (newMouseState.X >= 0 &&
+                    newMouseState.X <= screenManager.getSelectedScreenWidth(currentGameState)
+                    - screenManager.getGameObjectFromTheScreen(currentGameState, "paddle").ObjectShape.Width)
+                {
+                    Point location = new Point(newMouseState.X, screenManager.getGameObjectFromTheScreen(currentGameState, "paddle").ObjectShape.Y);
+                    screenManager.moveObjectOnTheScreen(currentGameState, "paddle", location);
+                }
+                if (wasBallShoot==false)
+                {
+                    set_up_ball();
+
+                    if (newMouseState.LeftButton == ButtonState.Pressed && oldMouseState.LeftButton == ButtonState.Released && wasBallShoot == false)
+                        shoot_ball(-x_speed, -y_speed);
+
+                    if (newMouseState.RightButton == ButtonState.Pressed && oldMouseState.RightButton == ButtonState.Released && wasBallShoot == false)
+                        shoot_ball(x_speed, -y_speed);
+                }
+                else
+                {
+             
+                    List<string> objectsToCheck = new List<string>();
+
+                     objectsToCheck.Add("paddle");
+
+                    blocks.ForEach(block => objectsToCheck.Add(block));
+
+           
+                    string pottentialCollisionObjectName = screenManager.getScreen(GameStatesEnum.GAME).checkIfObjectIsInCollisionWithOtherObjects("ball", objectsToCheck);
+
+                    if (pottentialCollisionObjectName != null)
+                    {
+                        collisionDictionary = screenManager.getScreen(GameStatesEnum.GAME).GetGameObject(pottentialCollisionObjectName).
+                            getCollisionDictionary(screenManager.getScreen(GameStatesEnum.GAME).GetGameObject("ball"));
+                        if (blocks.Contains(pottentialCollisionObjectName))
+                        {
+                            screenManager.getScreen(GameStatesEnum.GAME).removeObject(pottentialCollisionObjectName);
+                            blocks.Remove(pottentialCollisionObjectName);
+                            points++;
+                            screenManager.changeTextOfTheFontOnScreen(GameStatesEnum.GAME, "points_font", "Points: " + points);
+                           
+
+                        }
+                       
+                        deflectBall();
+
+                    }
+                    if (screenManager.getScreen(GameStatesEnum.GAME).checkIfObjectIsBeyondBottomOfTheScreen("ball"))
+                    {
+                        set_up_ball();
+                        lives--;
+                        screenManager.changeTextOfTheFontOnScreen(GameStatesEnum.GAME, "life_font", "Lives: " + lives);
+
+
+                    }
+                    if (isGameOver())
+                    {
+                        currentGameState = GameStatesEnum.SUMMARY;
+                    }
+                }
+               
+                
+
+                
+               
+                
+
+                   
+
             }
             oldMouseState = newMouseState;
             // TODO: Add your update logic here
 
+            screenManager.getScreen(currentGameState).AnimateScreen();
             base.Update(gameTime);
         }
 

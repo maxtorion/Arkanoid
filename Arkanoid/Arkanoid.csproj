@@ -41,8 +41,11 @@
     <ApplicationManifest>app.manifest</ApplicationManifest>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="CollisionMesh.cs" />
+    <Compile Include="FontGenerator.cs" />
+    <Compile Include="FontObject.cs" />
     <Compile Include="GameStatesEnum.cs" />
-    <Compile Include="ContentGenerator.cs" />
+    <Compile Include="GameObjectsGenerator.cs" />
     <Compile Include="ContentLoader.cs" />
     <Compile Include="Game1.cs" />
     <Compile Include="Game1_definitions.cs" />
@@ -50,6 +53,7 @@
     <Compile Include="GameObject.cs" />
     <Compile Include="LongPaddlePowerUp.cs" />
     <Compile Include="MapGenerator.cs" />
+    <Compile Include="MovmentVector.cs" />
     <Compile Include="OneLifePowerUp.cs" />
     <Compile Include="IPowerUp.cs" />
     <Compile Include="Program.cs" />

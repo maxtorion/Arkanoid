@@ -18,10 +18,20 @@ namespace Arkanoid
         SpriteBatch spriteBatch;
         ContentLoader<Texture2D> textureLoader;
         ContentLoader<SpriteFont> fontLoader;
-        ContentGenerator contentGenerator;
-        Screen splashScreen, menuScreen, gameScreen;
+        GameObjectsGenerator gameObjectsGenerator;
+        FontGenerator fontGenerator;
+        Screen splashScreen, menuScreen, gameScreen,summaryScreen;
         ScreenManager screenManager;
         MouseState newMouseState, oldMouseState;
+        Dictionary<string, bool> collisionDictionary;
+        List<string> objectToNotRemoveOnCollision;
+        List<string> blocks;
+        int lives = 3;
+        int points = 0;
+
+        bool wasBallShoot = false;
+        int x_speed = 3;
+        int y_speed = 3;
 
         GameStatesEnum currentGameState = GameStatesEnum.SPLASH;
         //Kolejność jest ważna, więc nie mieszać!!!!

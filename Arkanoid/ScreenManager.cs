@@ -43,6 +43,31 @@ namespace Arkanoid
             this.getScreen(selectedScreen).DrawScreen(spriteBatch);
 
         }
+        public int getSelectedScreenWidth(GameStatesEnum selectedScreen)
+        {
+            return this.screens[selectedScreen].ScreenBoundary.WindowWidth;
+        }
+        public int getSelectedScreenHeight(GameStatesEnum selectedScreen)
+        {
+            return this.screens[selectedScreen].ScreenBoundary.WindowHeight;
+        }
+        public GameObject getGameObjectFromTheScreen(GameStatesEnum selectedScreen, string name)
+        {
+            return this.screens[selectedScreen].GetGameObject(name);
+
+        }
+        public void moveObjectOnTheScreen(GameStatesEnum selectedScreen, string name, Point location)
+        {
+            this.screens[selectedScreen].moveObjectToTheNewLocation(name, location);
+        }
+        public void moveFontOnTheScreen(GameStatesEnum selectedScreen, string name, Point location)
+        {
+            this.screens[selectedScreen].moveFontToTheNewLocation(name, location);
+        }
+        public void changeTextOfTheFontOnScreen(GameStatesEnum selectedScreen, string name, string new_text)
+        {
+            this.screens[selectedScreen].setTextInChosenFontObject(name, new_text);
+        }
 
        
     }

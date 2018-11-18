@@ -11,7 +11,7 @@ using Microsoft.Xna.Framework.Input;
 /// </summary>
 namespace Arkanoid
 {
-    class ContentGenerator
+    class GameObjectsGenerator
     {
         private Dictionary<string, GameObject> gameObjects;
 
@@ -30,7 +30,7 @@ namespace Arkanoid
 
         }
 
-        public ContentGenerator()
+        public GameObjectsGenerator()
         {
             gameObjects = new Dictionary<string, GameObject>();
         }
@@ -113,12 +113,12 @@ namespace Arkanoid
 
         }
 
-        public ContentGenerator(List<string> objectsNames, List<Texture2D> textures, List<Rectangle> rectangles, List<Color> colors)
+        public GameObjectsGenerator(List<string> objectsNames, List<Texture2D> textures, List<Rectangle> rectangles, List<Color> colors)
         {
             this.GenerateContent(objectsNames, textures, rectangles, colors);
         }
 
-        public ContentGenerator(List<string> objectsNames, List<Texture2D> textures, List<Point> points, List<Color> colors)
+        public GameObjectsGenerator(List<string> objectsNames, List<Texture2D> textures, List<Point> points, List<Color> colors)
         {
 
             this.GenerateContent(objectsNames, textures, points, colors);
