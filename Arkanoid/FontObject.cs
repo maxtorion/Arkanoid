@@ -40,11 +40,7 @@ namespace Arkanoid
                 spriteBatch.DrawString(ObjectType,Text,ObjectShape, ObjectColor);
                 spriteBatch.End();
             }
-
-
         }
-
-
 
         public void moveObject(Point newPosition)
         {

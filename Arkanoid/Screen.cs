@@ -7,10 +7,6 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 
-/// <summary>
-/// Klasa odpowiedzialna za przechowywanie elementów wyswietlanych na ekranie i ich rysowanie
-/// </summary>
-
 namespace Arkanoid
 {
     class Screen

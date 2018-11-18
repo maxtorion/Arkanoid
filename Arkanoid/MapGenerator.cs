@@ -18,7 +18,6 @@ namespace Arkanoid
         internal List<Punkt> Coordinates { get => coordinates; set => coordinates = value; }
         internal string[] BoxName { get => boxName; set => boxName = value; }
         internal string BoxNameExact (int i) { return boxName[i]; }
-        
 
         internal void generateBlocksFromFile(String path, GameObjectsGenerator contentGenerator, ContentLoader<Texture2D> contentLoader)
         {
