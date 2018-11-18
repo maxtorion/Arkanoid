@@ -19,7 +19,6 @@ namespace Arkanoid
     {
         public int CurrentVectorX { get => currentVectorX; set => currentVectorX = value; }
         public int CurrentVectorY { get => currentVectorY; set => currentVectorY = value; }
-
         public bool wasMouseLeftButtonClickedAndReleased()
         {
             bool answer = false;
@@ -28,7 +27,6 @@ namespace Arkanoid
             {
                 answer = true;
             }
-
             return answer;
         }
 
@@ -38,11 +36,9 @@ namespace Arkanoid
             gameScreen.moveObjectToTheMiddleOfTheWidth("paddle",gameScreen.ScreenBoundary.WindowHeight - 100);
             gameScreen.moveObjectToTheMiddleOfTheWidth("ball", gameScreen.ScreenBoundary.WindowHeight - 120);
             set_up_ball();            
-
         }
         protected void set_up_ball()
         {
-           
             wasBallShoot = false;
             paddle = screenManager.getScreen(GameStatesEnum.GAME).GetGameObject("paddle");
             int ball_width = screenManager.getScreen(GameStatesEnum.GAME).GetGameObject("ball").ObjectShape.Width;
@@ -67,7 +63,6 @@ namespace Arkanoid
 
             screenManager.getScreen(GameStatesEnum.GAME).GetGameObject("bullet").MovmentVector = new MovmentVector(0, 0);
             screenManager.getScreen(GameStatesEnum.GAME).moveObjectToTheNewLocation("bullet", location);
-
         }
 
         protected void shoot_ball(int x_direction, int y_direction)
@@ -112,7 +107,6 @@ namespace Arkanoid
         
             string powerUpName = powerUps[r.Next(0, powerUps.Count)];
           
-
             while (isPickOk==false)
             {
                 if ((powerUpName== powerUps[2] && wasPaddleProlonged==true)||
@@ -124,10 +118,7 @@ namespace Arkanoid
                 {
                     isPickOk = true;
                 }
-
-
             }
-           
             return powerUpName;
         }
         
@@ -152,7 +143,6 @@ namespace Arkanoid
                 {
                     wasShootActive = true;
                 }
-                
             }
             //health
             else if (currentPowerUp == powerUps[1])
@@ -171,9 +161,7 @@ namespace Arkanoid
                 {
                     wasPaddleProlonged = true;
                 }
-
                 screenManager.getScreen(GameStatesEnum.GAME).stretchGameObjectOnScreenNTimes("paddle",2);
-
             }
             //short
             else if (currentPowerUp == powerUps[3] && wasPaddleShorthened == false)
@@ -188,7 +176,6 @@ namespace Arkanoid
                 }
                 screenManager.getScreen(GameStatesEnum.GAME).squeezeGameObjectOnScreenNTimes("paddle", 2);
             }
-           
         }
 
         public bool Get_is_game_paused()

@@ -19,7 +19,6 @@ namespace Arkanoid
 
         private Dictionary<string, FontObject> fontsOnScreen;
 
-
         private ScreenBoundaries screenBoundaries;
         private Timer screenEventTimer;
         
@@ -47,7 +46,6 @@ namespace Arkanoid
             {
                 this.windowWidth = graphicsDevice.Viewport.Width;
                 this.windowHeight = graphicsDevice.Viewport.Height;
-
             }
         }
 
@@ -58,11 +56,8 @@ namespace Arkanoid
             this.HoldOutObjects = new Dictionary<string, GameObject>();
         }
 
-      
-
         public Screen(GraphicsDevice graphicsDevice):this()
         {
-            
             this.screenBoundaries = new ScreenBoundaries(graphicsDevice);
         }
 
@@ -84,17 +79,14 @@ namespace Arkanoid
 
         public FontObject GetFontObject(string name)
         {
-
             FontObject foundObject;
             try
             {
                 foundObject = FontsOnScreen[name];
-
             }
             catch (System.Collections.Generic.KeyNotFoundException)
             {
                 foundObject = null;
-
             }
             return foundObject;
         }
@@ -106,12 +98,10 @@ namespace Arkanoid
         public void addNewObjectToTheScreen(string name,GameObject gameObject)
         {
             GameObjectsOnScreen.Add(name,gameObject);
-
         }
         public void addNewFontToTheScreen(string name, FontObject font)
         {
             fontsOnScreen.Add(name, font);
-
         }
         public void addNewObjectsToTheScreen(List<string> names,List<GameObject> gameObjects)
         {
@@ -120,6 +110,7 @@ namespace Arkanoid
                 this.addNewObjectToTheScreen(names[i], gameObjects[i]);
             }
         }
+
         public void addNewFontsToTheScreen(List<string> names, List<FontObject> fonts)
         {
             for (int i = 0; i < names.Count; i++)
@@ -148,27 +139,19 @@ namespace Arkanoid
         }
         public void addObjectsAsABackGround(Dictionary<string, GameObject> dictOfGameObjects)
         {
-
             for (int i = 0; i < dictOfGameObjects.Count; i++)
             {
                 this.addObjectAsABackGround(dictOfGameObjects.Keys.ToList()[i], dictOfGameObjects[dictOfGameObjects.Keys.ToList()[i]]);
             }
         }
 
-
         public void moveObjectToTheNewLocation(string objectName,Point location)
         {
-          
             this.GetGameObject(objectName).moveObject(location);
-
-
         }
         public void moveFontToTheNewLocation(string objectName, Point location)
         {
-
             this.GetFontObject(objectName).moveObject(location);
-
-
         }
 
         public void removeObject(string objectName)
@@ -205,10 +188,8 @@ namespace Arkanoid
             namesOfObjectToCheck.Add("TOP_WALL");
             namesOfObjectToCheck.Add("RIGHT_WALL");
 
-
             foreach (string objectName in namesOfObjectToCheck)
             {
-
                 if (nameOfObjectToHaveCollision!=objectName &&
                     this.GetGameObject(objectName)!=null && 
                     this.GetGameObject(objectName).isInCollisionWithOtherObject(this.GetGameObject(nameOfObjectToHaveCollision)))
@@ -216,9 +197,7 @@ namespace Arkanoid
                     answer = objectName;
                     break;
                 }
-               
             }
-
             return answer;
         }
 
@@ -230,7 +209,6 @@ namespace Arkanoid
             namesOfObjectToCheck.Add("TOP_WALL");
             namesOfObjectToCheck.Add("RIGHT_WALL");
 
-
             foreach (string objectName in namesOfObjectToCheck)
             {
 
@@ -241,9 +219,7 @@ namespace Arkanoid
                     answer = objectName;
                     break;
                 }
-
             }
-
             return answer;
         }
 
@@ -278,7 +254,6 @@ namespace Arkanoid
                 answer = true;
             }
             return answer;
-
         }
 
         public void setUpEventTimer(int interval, bool cyclic = true,ElapsedEventHandler calledMethod = null)
@@ -287,7 +262,6 @@ namespace Arkanoid
             this.ScreenEventTimer.AutoReset = cyclic;
             this.ScreenEventTimer.Elapsed += calledMethod;
             this.ScreenEventTimer.Enabled = true;
-
         }
 
         public void addHoldOutObject(string objectName, GameObject gameObject)
@@ -301,7 +275,6 @@ namespace Arkanoid
             {
                 this.addHoldOutObject(objectNames[i],gameObjects[i]);
             }
-
         }
         public GameObject getHoldoutObject(string name)
         {
@@ -339,12 +312,9 @@ namespace Arkanoid
 
                 objectToPlace.moveObject(randomPoint);
 
-
                 if (this.checkIfObjectIsInCollisionWithOtherObjects(objectToPlace, objectsToCheck) == null)
                 {
                     isLocationCorrect = true;
-
-
                 }
             }
 
@@ -354,19 +324,11 @@ namespace Arkanoid
         public void stretchGameObjectOnScreenNTimes(string name, int n)
         {
             this.GetGameObject(name).stretchObjectNTimes(n);
-
         }
 
         public void squeezeGameObjectOnScreenNTimes(string name, int n)
         {
             this.GetGameObject(name).squeezeObjectNTimes(n);
-
         }
-
-
-
-
-
-
     }
 }

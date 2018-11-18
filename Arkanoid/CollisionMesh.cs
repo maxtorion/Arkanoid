@@ -33,7 +33,6 @@ namespace Arkanoid
             this.Bottom_left_point = new Point(objectRectangle.X, objectRectangle.Y + objectRectangle.Height);
             this.Bottom_middle_point = new Point(objectRectangle.X + (objectRectangle.Width / 2), objectRectangle.Y + objectRectangle.Height);
             this.Bottom_right_point = new Point(objectRectangle.X + objectRectangle.Width, objectRectangle.Y + objectRectangle.Height);
-
         }
 
         public bool isCollisionTopLeft_with_bottom(CollisionMesh other_object_collision_mesh)
@@ -48,7 +47,6 @@ namespace Arkanoid
                 answer = true;
             }
             return answer;
-
         }
         public bool isCollisionTopMiddle_with_bottom(CollisionMesh other_object_collision_mesh)
         {
@@ -63,7 +61,6 @@ namespace Arkanoid
                 answer = true;
             }
             return answer;
-
         }
         public bool isCollisionTopRight_with_bottom(CollisionMesh other_object_collision_mesh)
         {
@@ -78,22 +75,17 @@ namespace Arkanoid
                 answer = true;
             }
             return answer;
-
         }
-
 
         public bool isCollisionTop_Bottom(CollisionMesh other_object_collision_mesh)
         {
             bool answer = false;
-          
-
             if (
                 isCollisionTopMiddle_with_bottom(other_object_collision_mesh)
                )
             {
                 answer = true;
             }
-
             return answer;
         }
 
@@ -110,7 +102,6 @@ namespace Arkanoid
                 answer = true;
             }
             return answer;
-
         }
 
         public bool isCollisionBottomMiddle_with_Top(CollisionMesh other_object_collision_mesh)
@@ -126,7 +117,6 @@ namespace Arkanoid
                 answer = true;
             }
             return answer;
-
         }
 
         public bool isCollisionBottomRight_with_Top(CollisionMesh other_object_collision_mesh)
@@ -142,7 +132,6 @@ namespace Arkanoid
                 answer = true;
             }
             return answer;
-
         }
 
         public bool isCollisionBottom_Top(CollisionMesh other_object_collision_mesh)
@@ -154,7 +143,6 @@ namespace Arkanoid
             {
                 answer = true;
             }
-
             return answer;
         }
 
@@ -171,7 +159,6 @@ namespace Arkanoid
                 answer = true;
             }
             return answer;
-
         }
 
         public bool isCollisionRightMiddle_with_Left(CollisionMesh other_object_collision_mesh)
@@ -187,7 +174,6 @@ namespace Arkanoid
                 answer = true;
             }
             return answer;
-
         }
 
         public bool isCollisionRightBottom_with_Left(CollisionMesh other_object_collision_mesh)
@@ -203,9 +189,7 @@ namespace Arkanoid
                 answer = true;
             }
             return answer;
-
         }
-
 
         public bool isCollisionRight_Left(CollisionMesh other_object_collision_mesh)
         {
@@ -216,7 +200,6 @@ namespace Arkanoid
             {
                 answer = true;
             }
-
             return answer;
         }
 
@@ -233,7 +216,6 @@ namespace Arkanoid
                 answer = true;
             }
             return answer;
-
         }
 
         public bool isCollisionLeftMiddle_with_Right(CollisionMesh other_object_collision_mesh)
@@ -249,7 +231,6 @@ namespace Arkanoid
                 answer = true;
             }
             return answer;
-
         }
 
         public bool isCollisionLeftBottom_with_Right(CollisionMesh other_object_collision_mesh)
@@ -265,7 +246,6 @@ namespace Arkanoid
                 answer = true;
             }
             return answer;
-
         }
         public bool isCollisionLeft_Right(CollisionMesh other_object_collision_mesh)
         {
@@ -292,9 +272,7 @@ namespace Arkanoid
             {
                 answer = true;
             }
-
             return answer;
-
         }
 
         public Dictionary<string,bool> generateCollisionDictionary(CollisionMesh other_object_collision_mesh)
@@ -322,11 +300,8 @@ namespace Arkanoid
             {
                 collisionDictionary["RIGHT"] = true;
             }
-            
             return collisionDictionary;
-            
         }
-
 
         public Point Top_left_point { get => top_left_point; set => top_left_point = value; }
         public Point Top_middle_point { get => top_middle_point; set => top_middle_point = value; }

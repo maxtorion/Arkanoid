@@ -11,7 +11,6 @@ namespace Arkanoid
     public partial class Game1 : Game
     {
         MapGenerator mapGenerator = new MapGenerator();
-
         public Game1()
         {
             graphics = new GraphicsDeviceManager(this);
@@ -30,7 +29,6 @@ namespace Arkanoid
             collisionDictionary.Add("RIGHT", false);
 
             blocks = new List<string>();
-
         }
 
         protected override void Initialize()
@@ -113,8 +111,6 @@ namespace Arkanoid
             screenManager.moveFontOnTheScreen(GameStatesEnum.SUMMARY, "summary_text_font", new Point(GraphicsDevice.Viewport.Bounds.Width / 2 - 50, 50));
             screenManager.changeTextOfTheFontOnScreen(GameStatesEnum.SUMMARY, "summary_text_font", "Game over");
 
-            
-
             screenManager.moveFontOnTheScreen(GameStatesEnum.SUMMARY, "summary_text2_font", new Point(GraphicsDevice.Viewport.Bounds.Width / 2 - 60, 140));
             screenManager.changeTextOfTheFontOnScreen(GameStatesEnum.SUMMARY, "summary_text2_font", "Back to menu");
 
@@ -196,14 +192,8 @@ namespace Arkanoid
                 if (Keyboard.GetState().IsKeyDown(Keys.U))
                 {
                     Try_to_unpause_a_game(x_speed, y_speed);
-
                 }
             }
-
-               
-             
-
-
             else if (currentGameState == GameStatesEnum.GAME) {
                    if (screenManager.getScreen(GameStatesEnum.GAME).ScreenEventTimer==null)
                 {
@@ -238,22 +228,18 @@ namespace Arkanoid
                         {
                             shoot_bullet(-y_speed);
                         }
-                           
                     }
 
                     //kolizja piłki z blokami
                     List<string> objectsToCheck = new List<string>();
-
-                     objectsToCheck.Add("paddle");
-
-                     blocks.ForEach(block => objectsToCheck.Add(block));
+                    objectsToCheck.Add("paddle");
+                    blocks.ForEach(block => objectsToCheck.Add(block));
 
                     if (currentPowerUp!=null)
                     {
                         objectsToCheck.Add(currentPowerUp);
                     }
 
-           
                     string pottentialCollisionObjectName = screenManager.getScreen(GameStatesEnum.GAME).checkIfObjectIsInCollisionWithOtherObjects("ball", objectsToCheck);
 
                     if (pottentialCollisionObjectName != null)
@@ -268,23 +254,15 @@ namespace Arkanoid
                             points++;
                             screenManager.changeTextOfTheFontOnScreen(GameStatesEnum.GAME, "points_font", "Points: " + points);
                         }
-
-                    
-                    
-
                         else if (powerUps.Contains(pottentialCollisionObjectName))
                         {
                             screenManager.getScreen(GameStatesEnum.GAME).removeObject(pottentialCollisionObjectName);
                             interpretPowerUpReward();
                             currentPowerUp = null;
-
-
                         }
                        
                         if(!powerUps.Contains(pottentialCollisionObjectName))
                             deflectBall();
-
-
                     }
                     //kolizja pocisku
                     if (wasShootActive && wasBulletShoot == true)
@@ -308,8 +286,6 @@ namespace Arkanoid
                             screenManager.getScreen(GameStatesEnum.GAME).removeObject("bullet");
                             wasBulletShoot = false;
                             wasShootActive = false;
-
-
                         }
                     }
                     //piłka poza grą
@@ -319,7 +295,6 @@ namespace Arkanoid
                         {
                             wasShootActive = false;
                             screenManager.getScreen(GameStatesEnum.GAME).removeObject("bullet");
-
                         }
                         set_up_ball();
                         lives--;
@@ -351,7 +326,6 @@ namespace Arkanoid
                     (newMouseState.Position.X >= 350 && newMouseState.Position.X <= 390) &&
                     (newMouseState.Position.Y >= 170 && newMouseState.Position.Y <= 190))
                 {
-
                     Reset();
                     currentGameState = GameStatesEnum.GAME;
                 }

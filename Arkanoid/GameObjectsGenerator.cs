@@ -14,11 +14,9 @@ namespace Arkanoid
     class GameObjectsGenerator
     {
         private Dictionary<string, GameObject> gameObjects;
-
         internal Dictionary<string, GameObject> GameObjects { get => gameObjects; set => gameObjects = value; }
 
         public GameObject getGameObject(string name) {
-
             return GameObjects[name];
         }
 
@@ -27,7 +25,6 @@ namespace Arkanoid
             List<GameObject> selectedGameObjects = new List<GameObject>();
             namesOfGameobjects.ForEach(name => selectedGameObjects.Add(this.getGameObject(name)));
             return selectedGameObjects;
-
         }
 
         public GameObjectsGenerator()
@@ -37,33 +34,27 @@ namespace Arkanoid
 
         public void GenerateContent(string objectName, Texture2D texture, Rectangle rectangle, Color color)
         {
-
             GameObjects.Add(objectName, new GameObject(texture, rectangle, color));
         }
 
         public void GenerateContent(string objectName, Texture2D texture, Point point, Color color)
         {
-
             this.GenerateContent(objectName, texture, new Rectangle(point.X,point.Y,texture.Width,texture.Height), color);
         }
 
         public void GenerateContent(string objectName, Texture2D texture, Rectangle rectangle)
         {
-
             GameObjects.Add(objectName, new GameObject(texture, rectangle, Color.White));
         }
 
         public void GenerateContent(string objectName, Texture2D texture, Point point)
         {
-
             this.GenerateContent(objectName, texture, new Rectangle(point.X, point.Y, texture.Width, texture.Height));
         }
         public void GenerateContent(string objectName, Texture2D texture)
         {
-
             GameObjects.Add(objectName, new GameObject(texture, new Rectangle(0,0,texture.Width,texture.Height), Color.White));
         }
-
 
         public void GenerateContent(List<string> objectsNames, List<Texture2D> textures, List<Rectangle> rectangles, List<Color> colors)
         {
@@ -80,10 +71,8 @@ namespace Arkanoid
                 Point point = points[i];
                 Texture2D texture = textures[i];
                 rectangles.Add(new Rectangle(point.X, point.Y, texture.Width, texture.Height));
-
             }
             this.GenerateContent(objectsNames, textures, rectangles, colors);
-
         }
         public void GenerateContent(List<string> objectsNames, List<Texture2D> textures, List<Rectangle> rectangles)
         {
@@ -110,7 +99,6 @@ namespace Arkanoid
 
             }
             this.GenerateContent(objectsNames, textures, rectangles);
-
         }
 
         public GameObjectsGenerator(List<string> objectsNames, List<Texture2D> textures, List<Rectangle> rectangles, List<Color> colors)

@@ -16,9 +16,7 @@ namespace Arkanoid
     class ContentLoader<T>
     {
         private Dictionary<string, T> elementsToLoad;
-
         public Dictionary<string,T> ElementsToLoad { get => elementsToLoad; set => elementsToLoad = value; }
-
         public ContentLoader()
         {
             ElementsToLoad = new Dictionary<string, T>();
@@ -27,7 +25,6 @@ namespace Arkanoid
         public void Load(ContentManager content, List<string> locations) {
 
             locations.ForEach(location => ElementsToLoad.Add(location,content.Load<T>(location)));
-              
         }
         public T getContent(string content_name) {
 
@@ -36,11 +33,8 @@ namespace Arkanoid
 
         public List<T> getListedContent(List<string> contentNames)
         {
-
             List<T> contentList = new List<T>();
-
             contentNames.ForEach(name=>contentList.Add(ElementsToLoad[name]));
-
             return contentList;
         }  
     }

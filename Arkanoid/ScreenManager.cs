@@ -14,7 +14,6 @@ namespace Arkanoid
     class ScreenManager
     {
         private Dictionary<GameStatesEnum, Screen> screens;
-
         internal Dictionary<GameStatesEnum, Screen> Screens { get => screens; set => screens = value; }
 
         public ScreenManager()
@@ -28,13 +27,10 @@ namespace Arkanoid
         }
 
         public Screen getScreen(GameStatesEnum screen) {
-
             return Screens[screen];
-            
         }
 
         public void addScreen(GameStatesEnum screenType, Screen screen) {
-
             Screens.Add(screenType, screen);
         }
 
@@ -71,14 +67,10 @@ namespace Arkanoid
         public void orderScreenToDisplayHoldoutObject(GameStatesEnum selectedScreen, string name, Point objectLocation)
         {
             this.getScreen(selectedScreen).moveHoldOutObjectToDisplay(name, objectLocation);
-
         }
         public void orderScreenToDisplayHoldoutObjectInRandomPlace(GameStatesEnum selectedScreen, string name, Rectangle zone)
         {
             this.getScreen(selectedScreen).moveHoldOutObjectToDisplayInRandomPlace(name, zone);
-
         }
-
-
     }
 }

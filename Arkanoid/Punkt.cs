@@ -11,7 +11,6 @@ namespace Arkanoid
     {
         private int x_location;
         private int y_location;
-
         public Punkt(int x_location, int y_location)
         {
             this.x_location = x_location;

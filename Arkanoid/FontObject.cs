@@ -28,7 +28,6 @@ namespace Arkanoid
 
         public FontObject(SpriteFont objectType, Vector2 objectShape, Color objectColor, string text):this(objectType,objectShape,objectColor)
         {
-           
             this.text = text;
         }
 

@@ -57,15 +57,10 @@ namespace Arkanoid
                     {
                         texture2D = contentLoader.getContent("images\\box_purple");
                     }
-
                     boxName[i] = "box" + counter++;
                     contentGenerator.GenerateContent(boxName[i], texture2D, new Point(int.Parse(temp[j]),int.Parse(temp[j + 1])));
                 }
-
-
             }
-            
         }
-
     }
 }

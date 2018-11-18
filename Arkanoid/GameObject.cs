@@ -21,14 +21,12 @@ namespace Arkanoid
         private Color objectColor;
         private MovmentVector movmentVector = new MovmentVector(0,0);
         private CollisionMesh collisionMesh;
-
         public GameObject(Texture2D objectType, Rectangle objectShape, Color objectColor)
         {
             this.ObjectType = objectType;
             this.ObjectShape = objectShape;
             this.ObjectColor = objectColor;
             this.CollisionMesh = new CollisionMesh(this.ObjectShape);
-        
         }
 
         public GameObject(Texture2D objectType, Rectangle objectShape, Color objectColor, MovmentVector movmentVector) : this(objectType, objectShape, objectColor)
@@ -50,8 +48,6 @@ namespace Arkanoid
                 spriteBatch.Draw(ObjectType, ObjectShape, ObjectColor);
                 spriteBatch.End();
             }
-           
-
         }
 
         public void moveObject(Point newPosition)
@@ -112,7 +108,5 @@ namespace Arkanoid
             int current_width = this.ObjectShape.Width;
             this.changeGameObjectShape(new Rectangle(this.ObjectShape.X, this.ObjectShape.Y, current_width/n, this.ObjectShape.Height));
         }
-
-
     }
 }
