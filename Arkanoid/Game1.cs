@@ -154,6 +154,10 @@ namespace Arkanoid
                  textureLoader.getListedContent(textures_locations.GetRange(11,4)));
             screenManager.getScreen(GameStatesEnum.GAME).addHoldOutObjects(powerUps, gameObjectsGenerator.getListOfGameObjects(powerUps));
 
+            //utworzenie bullet
+            gameObjectsGenerator.GenerateContent("bullet",
+                textureLoader.getContent(textures_locations[15]));
+            screenManager.getScreen(GameStatesEnum.GAME).addHoldOutObject("bullet", gameObjectsGenerator.getGameObject("bullet"));
 
         }
 
@@ -200,7 +204,7 @@ namespace Arkanoid
                 }
             }
 
-                //Jak mogę to uprościć?
+               
              
 
 
@@ -231,6 +235,17 @@ namespace Arkanoid
                 }
                 else
                 {
+                    if (wasShootActive && wasBulletShoot==false)
+                    {
+                        set_up_bullet();
+                        if (newMouseState.LeftButton == ButtonState.Pressed && oldMouseState.LeftButton == ButtonState.Released && wasBulletShoot == false)
+                        {
+                            shoot_bullet(-y_speed);
+                        }
+                           
+                    }
+
+                    //kolizja piłki z blokami
                     List<string> objectsToCheck = new List<string>();
 
                      objectsToCheck.Add("paddle");
@@ -258,25 +273,58 @@ namespace Arkanoid
                             screenManager.changeTextOfTheFontOnScreen(GameStatesEnum.GAME, "points_font", "Points: " + points);
                         }
 
-                       // deflectBall();
+                    
                     
 
-                    else if (powerUps.Contains(pottentialCollisionObjectName))
-                    {
-                        screenManager.getScreen(GameStatesEnum.GAME).removeObject(pottentialCollisionObjectName);
-                        interpretPowerUpReward();
-                        currentPowerUp = null;
+                        else if (powerUps.Contains(pottentialCollisionObjectName))
+                        {
+                            screenManager.getScreen(GameStatesEnum.GAME).removeObject(pottentialCollisionObjectName);
+                            interpretPowerUpReward();
+                            currentPowerUp = null;
 
 
-                    }
+                        }
                        
                         if(!powerUps.Contains(pottentialCollisionObjectName))
                             deflectBall();
 
 
                     }
+                    //kolizja pocisku
+                    if (wasShootActive && wasBulletShoot == true)
+                    {
+                        objectsToCheck = new List<string>();
+                        blocks.ForEach(block => objectsToCheck.Add(block));
+                        pottentialCollisionObjectName = screenManager.getScreen(GameStatesEnum.GAME).checkIfObjectIsInCollisionWithOtherObjects("bullet", objectsToCheck);
+
+                        if (pottentialCollisionObjectName != null)
+                        {
+                            collisionDictionary = screenManager.getScreen(GameStatesEnum.GAME).GetGameObject(pottentialCollisionObjectName).
+                                getCollisionDictionary(screenManager.getScreen(GameStatesEnum.GAME).GetGameObject("bullet"));
+                            if (blocks.Contains(pottentialCollisionObjectName))
+                            {
+                                screenManager.getScreen(GameStatesEnum.GAME).removeObject(pottentialCollisionObjectName);
+                                blocks.Remove(pottentialCollisionObjectName);
+                                names_of_remove.Add(pottentialCollisionObjectName);
+                                points++;
+                                screenManager.changeTextOfTheFontOnScreen(GameStatesEnum.GAME, "points_font", "Points: " + points);
+                            }
+                            screenManager.getScreen(GameStatesEnum.GAME).removeObject("bullet");
+                            wasBulletShoot = false;
+                            wasShootActive = false;
+
+
+                        }
+                    }
+                    //piłka poza grą
                     if (screenManager.getScreen(GameStatesEnum.GAME).checkIfObjectIsBeyondBottomOfTheScreen("ball"))
                     {
+                        if (wasShootActive && wasBulletShoot == false)
+                        {
+                            wasShootActive = false;
+                            screenManager.getScreen(GameStatesEnum.GAME).removeObject("bullet");
+
+                        }
                         set_up_ball();
                         lives--;
                         screenManager.changeTextOfTheFontOnScreen(GameStatesEnum.GAME, "life_font", "Lives: " + lives);

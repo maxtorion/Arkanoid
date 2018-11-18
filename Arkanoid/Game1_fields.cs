@@ -39,6 +39,7 @@ namespace Arkanoid
 
         bool wasBallShoot = false;
         bool wasPaddleProlonged = false, wasPaddleShorthened = false;
+        bool wasShootActive = false, wasBulletShoot = false;
         int x_speed = 3;
         int y_speed = 3;
 
@@ -59,7 +60,8 @@ namespace Arkanoid
             "images\\powerUP_dative",
             "images\\powerUP_health",
             "images\\powerUP_long",
-            "images\\powerUP_short"
+            "images\\powerUP_short",
+            "images\\powerUP_shoot"
         };
 
         private List<string>fonts_locations = new List<string>() {

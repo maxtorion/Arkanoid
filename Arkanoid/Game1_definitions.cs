@@ -52,6 +52,24 @@ namespace Arkanoid
                 paddle.ObjectShape.Y - 20));
         }
 
+        protected void set_up_bullet()
+        {
+            wasBulletShoot = false;
+            paddle = screenManager.getScreen(GameStatesEnum.GAME).GetGameObject("paddle");
+            int bullet_width = screenManager.getScreen(GameStatesEnum.GAME).getHoldoutObject("bullet").ObjectShape.Width;
+            Point location = new Point(paddle.ObjectShape.X + (paddle.ObjectShape.Width / 2) - (bullet_width / 2),
+                paddle.ObjectShape.Y - 20);
+
+            if (screenManager.getScreen(GameStatesEnum.GAME).GetGameObject("bullet") == null)
+            {
+                screenManager.orderScreenToDisplayHoldoutObject(GameStatesEnum.GAME,"bullet",location);
+            }
+
+            screenManager.getScreen(GameStatesEnum.GAME).GetGameObject("bullet").MovmentVector = new MovmentVector(0, 0);
+            screenManager.getScreen(GameStatesEnum.GAME).moveObjectToTheNewLocation("bullet", location);
+
+        }
+
         protected void shoot_ball(int x_direction, int y_direction)
         {
             screenManager.getScreen(GameStatesEnum.GAME).GetGameObject("ball").MovmentVector = new MovmentVector(x_direction, y_direction);
@@ -59,6 +77,13 @@ namespace Arkanoid
             CurrentVectorX = x_direction;
             CurrentVectorY = y_direction;
         }
+
+        protected void shoot_bullet(int y_direction)
+        {
+            screenManager.getScreen(GameStatesEnum.GAME).GetGameObject("bullet").MovmentVector = new MovmentVector(0, y_direction);
+            wasBulletShoot = true;
+        }
+
         protected void deflectBall()
         {
             if ((collisionDictionary["TOP"] == true) || (collisionDictionary["BOTTOM"] == true))
@@ -83,8 +108,9 @@ namespace Arkanoid
         {
             Random r = new Random();
             bool isPickOk = false;
-
+        
             string powerUpName = powerUps[r.Next(0, powerUps.Count)];
+          
 
             while (isPickOk==false)
             {
@@ -111,7 +137,7 @@ namespace Arkanoid
             {
                 currentPowerUp = pickRandomPowerUp();
                 screenManager.orderScreenToDisplayHoldoutObjectInRandomPlace(GameStatesEnum.GAME, currentPowerUp, 
-                    new Rectangle(0,0, screenManager.getSelectedScreenWidth(GameStatesEnum.GAME), screenManager.getGameObjectFromTheScreen(GameStatesEnum.GAME,"paddle").ObjectShape.Y+40));
+                    new Rectangle(0,0, screenManager.getSelectedScreenWidth(GameStatesEnum.GAME), screenManager.getGameObjectFromTheScreen(GameStatesEnum.GAME,"paddle").ObjectShape.Y-40));
             }
         
         }
@@ -121,7 +147,11 @@ namespace Arkanoid
             //shoot
             if (currentPowerUp == powerUps[0])
             {
-
+                if (wasShootActive==false)
+                {
+                    wasShootActive = true;
+                }
+                
             }
             //health
             else if (currentPowerUp == powerUps[1])
