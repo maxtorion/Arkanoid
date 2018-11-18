@@ -129,6 +129,13 @@ namespace Arkanoid
           names_to_load = new List<string>() { "tlo" };
           screenManager.getScreen(GameStatesEnum.SUMMARY).addObjectsAsABackGround(names_to_load, gameObjectsGenerator.getListOfGameObjects(names_to_load));
 
+            //Utworzenie Power Upów
+            powerUps = new List<string>() { "shoot_power", "live_power", "long_power", "short_power" };
+            gameObjectsGenerator.GenerateContent(powerUps,
+                 textureLoader.getListedContent(textures_locations.GetRange(11,4)));
+            screenManager.getScreen(GameStatesEnum.GAME).addHoldOutObjects(powerUps, gameObjectsGenerator.getListOfGameObjects(powerUps));
+
+
         }
 
         /// <summary>
@@ -183,6 +190,10 @@ namespace Arkanoid
             else if (currentGameState == GameStatesEnum.GAME) {
 
                 //Jak mogę to uprościć?
+                if (screenManager.getScreen(GameStatesEnum.GAME).ScreenEventTimer==null)
+                {
+                    screenManager.getScreen(GameStatesEnum.GAME).setUpEventTimer(5000,true,PowerUpShowUp);
+                }
 
                 if (newMouseState.X >= 0 &&
                     newMouseState.X <= screenManager.getSelectedScreenWidth(currentGameState)
@@ -208,7 +219,12 @@ namespace Arkanoid
 
                      objectsToCheck.Add("paddle");
 
-                    blocks.ForEach(block => objectsToCheck.Add(block));
+                     blocks.ForEach(block => objectsToCheck.Add(block));
+
+                    if (currentPowerUp!=null)
+                    {
+                        objectsToCheck.Add(currentPowerUp);
+                    }
 
            
                     string pottentialCollisionObjectName = screenManager.getScreen(GameStatesEnum.GAME).checkIfObjectIsInCollisionWithOtherObjects("ball", objectsToCheck);
@@ -226,8 +242,17 @@ namespace Arkanoid
                            
 
                         }
+                        else if(powerUps.Contains(pottentialCollisionObjectName))
+                        {
+                            screenManager.getScreen(GameStatesEnum.GAME).removeObject(pottentialCollisionObjectName);
+                            interpretPowerUpReward();
+                            currentPowerUp = null;
+                            
+
+                        }
                        
-                        deflectBall();
+                        if(!powerUps.Contains(pottentialCollisionObjectName))
+                            deflectBall();
 
                     }
                     if (screenManager.getScreen(GameStatesEnum.GAME).checkIfObjectIsBeyondBottomOfTheScreen("ball"))
