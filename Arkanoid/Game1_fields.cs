@@ -31,6 +31,7 @@ namespace Arkanoid
         List<string> blocks;
         int currentVectorX;
         int currentVectorY;
+        int currentVectorYShoot;
         List<string> powerUps;
         string currentPowerUp = null;
         int lives = 3;
@@ -67,5 +68,7 @@ namespace Arkanoid
         private List<string>fonts_locations = new List<string>() {
             "fonts\\wynik",
         };
+
+        public int CurrentVectorYShoot { get => currentVectorYShoot; set => currentVectorYShoot = value; }
     }
 }

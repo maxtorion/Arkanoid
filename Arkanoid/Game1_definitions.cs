@@ -81,6 +81,7 @@ namespace Arkanoid
         protected void shoot_bullet(int y_direction)
         {
             screenManager.getScreen(GameStatesEnum.GAME).GetGameObject("bullet").MovmentVector = new MovmentVector(0, y_direction);
+            CurrentVectorYShoot = y_direction;
             wasBulletShoot = true;
         }
 
@@ -201,7 +202,8 @@ namespace Arkanoid
                 {
                     currentGameState = GameStatesEnum.PAUSE;
                     screenManager.getScreen(GameStatesEnum.GAME).GetGameObject("ball").MovmentVector = new MovmentVector(0, 0);
-                    is_game_paused = true;
+                screenManager.getScreen(GameStatesEnum.GAME).GetGameObject("bullet").MovmentVector = new MovmentVector(0, 0);
+                is_game_paused = true;
                 }
         }
         public void Try_to_unpause_a_game(int x_direction, int y_direction)
@@ -211,6 +213,7 @@ namespace Arkanoid
                 is_game_paused = false;
                 currentGameState = GameStatesEnum.GAME;
                 screenManager.getScreen(GameStatesEnum.GAME).GetGameObject("ball").MovmentVector = new MovmentVector(CurrentVectorX, CurrentVectorY);
+                screenManager.getScreen(GameStatesEnum.GAME).GetGameObject("bullet").MovmentVector = new MovmentVector(0, CurrentVectorYShoot);
             }
         }
 
