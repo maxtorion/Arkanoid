@@ -148,6 +148,13 @@ namespace Arkanoid
 
             screenManager.moveFontOnTheScreen(GameStatesEnum.PAUSE, "pause_life", new Point(700, 420));
             screenManager.changeTextOfTheFontOnScreen(GameStatesEnum.PAUSE, "pause_life", "Lives: " + lives);
+            //Utworzenie Power Upów
+            powerUps = new List<string>() { "shoot_power", "live_power", "long_power", "short_power" };
+            gameObjectsGenerator.GenerateContent(powerUps,
+                 textureLoader.getListedContent(textures_locations.GetRange(11,4)));
+            screenManager.getScreen(GameStatesEnum.GAME).addHoldOutObjects(powerUps, gameObjectsGenerator.getListOfGameObjects(powerUps));
+
+
         }
 
         protected override void UnloadContent()    {   }
@@ -189,10 +196,20 @@ namespace Arkanoid
                 if (Keyboard.GetState().IsKeyDown(Keys.U))
                 {
                     Try_to_unpause_a_game(x_speed, y_speed);
+
                 }
             }
 
+                //Jak mogę to uprościć?
+             
+
+
             else if (currentGameState == GameStatesEnum.GAME) {
+                   if (screenManager.getScreen(GameStatesEnum.GAME).ScreenEventTimer==null)
+                {
+                    screenManager.getScreen(GameStatesEnum.GAME).setUpEventTimer(5000,true,PowerUpShowUp);
+                }
+                
                 screenManager.changeTextOfTheFontOnScreen(GameStatesEnum.GAME, "points_font", "Points: " + points);
                 screenManager.changeTextOfTheFontOnScreen(GameStatesEnum.GAME, "life_font", "Lives: " + lives);
                 if (newMouseState.X >= 0 &&
@@ -215,9 +232,17 @@ namespace Arkanoid
                 else
                 {
                     List<string> objectsToCheck = new List<string>();
-                    objectsToCheck.Add("paddle");
-                    blocks.ForEach(block => objectsToCheck.Add(block));
 
+                     objectsToCheck.Add("paddle");
+
+                     blocks.ForEach(block => objectsToCheck.Add(block));
+
+                    if (currentPowerUp!=null)
+                    {
+                        objectsToCheck.Add(currentPowerUp);
+                    }
+
+           
                     string pottentialCollisionObjectName = screenManager.getScreen(GameStatesEnum.GAME).checkIfObjectIsInCollisionWithOtherObjects("ball", objectsToCheck);
 
                     if (pottentialCollisionObjectName != null)
@@ -232,7 +257,22 @@ namespace Arkanoid
                             points++;
                             screenManager.changeTextOfTheFontOnScreen(GameStatesEnum.GAME, "points_font", "Points: " + points);
                         }
-                        deflectBall();
+
+                       // deflectBall();
+                    
+
+                    else if (powerUps.Contains(pottentialCollisionObjectName))
+                    {
+                        screenManager.getScreen(GameStatesEnum.GAME).removeObject(pottentialCollisionObjectName);
+                        interpretPowerUpReward();
+                        currentPowerUp = null;
+
+
+                    }
+                       
+                        if(!powerUps.Contains(pottentialCollisionObjectName))
+                            deflectBall();
+
 
                     }
                     if (screenManager.getScreen(GameStatesEnum.GAME).checkIfObjectIsBeyondBottomOfTheScreen("ball"))

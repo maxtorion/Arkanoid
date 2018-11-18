@@ -31,11 +31,14 @@ namespace Arkanoid
         List<string> blocks;
         int currentVectorX;
         int currentVectorY;
+        List<string> powerUps;
+        string currentPowerUp = null;
         int lives = 3;
         int points = 0;
         bool is_game_paused = false;
 
         bool wasBallShoot = false;
+        bool wasPaddleProlonged = false, wasPaddleShorthened = false;
         int x_speed = 3;
         int y_speed = 3;
 

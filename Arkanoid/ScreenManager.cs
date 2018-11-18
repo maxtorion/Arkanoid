@@ -68,7 +68,17 @@ namespace Arkanoid
         {
             this.screens[selectedScreen].setTextInChosenFontObject(name, new_text);
         }
+        public void orderScreenToDisplayHoldoutObject(GameStatesEnum selectedScreen, string name, Point objectLocation)
+        {
+            this.getScreen(selectedScreen).moveHoldOutObjectToDisplay(name, objectLocation);
 
-       
+        }
+        public void orderScreenToDisplayHoldoutObjectInRandomPlace(GameStatesEnum selectedScreen, string name, Rectangle zone)
+        {
+            this.getScreen(selectedScreen).moveHoldOutObjectToDisplayInRandomPlace(name, zone);
+
+        }
+
+
     }
 }

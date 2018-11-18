@@ -58,6 +58,7 @@ namespace Arkanoid
         {
             this.objectShape.X = newPosition.X;
             this.objectShape.Y = newPosition.Y;
+            this.updateCollisionMesh();
         }
 
         public void changeMovementVector(int x_movment, int y_movment)
@@ -88,9 +89,30 @@ namespace Arkanoid
 
             return answer;
         }
+
         public Dictionary<string,bool> getCollisionDictionary(GameObject gameObject)
         {
             return this.CollisionMesh.generateCollisionDictionary(gameObject.CollisionMesh);
         }
+
+        public void changeGameObjectShape(Rectangle newShape)
+        {
+            this.ObjectShape = newShape;
+            this.updateCollisionMesh();
+        }
+
+        public void stretchObjectNTimes(int n)
+        {
+            int current_width = this.ObjectShape.Width;
+            this.changeGameObjectShape(new Rectangle(this.ObjectShape.X,this.ObjectShape.Y,current_width*n,this.ObjectShape.Height));
+        }
+
+        public void squeezeObjectNTimes(int n)
+        {
+            int current_width = this.ObjectShape.Width;
+            this.changeGameObjectShape(new Rectangle(this.ObjectShape.X, this.ObjectShape.Y, current_width/n, this.ObjectShape.Height));
+        }
+
+
     }
 }

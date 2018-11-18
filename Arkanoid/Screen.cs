@@ -6,19 +6,28 @@ using System.Threading.Tasks;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
+using System.Timers;
 
 namespace Arkanoid
 {
     class Screen
     {
         private Dictionary<string,GameObject> gameObjectsOnScreen;
+
+        //Tu przechowywać elementy, które nie mają być od razu rysowane na ekranie, a pojawiać się jedynie w razie potrzeby
+        private Dictionary<string, GameObject> holdOutObjects;
+
         private Dictionary<string, FontObject> fontsOnScreen;
 
+
         private ScreenBoundaries screenBoundaries;
+        private Timer screenEventTimer;
         
         internal Dictionary<string, GameObject> GameObjectsOnScreen { get => gameObjectsOnScreen; set => gameObjectsOnScreen = value; }
         internal ScreenBoundaries ScreenBoundary { get => screenBoundaries; set => screenBoundaries = value; }
         internal Dictionary<string, FontObject> FontsOnScreen { get => fontsOnScreen; set => fontsOnScreen = value; }
+        public Timer ScreenEventTimer { get => screenEventTimer; set => screenEventTimer = value; }
+        internal Dictionary<string, GameObject> HoldOutObjects { get => holdOutObjects; set => holdOutObjects = value; }
 
         internal struct ScreenBoundaries
         {
@@ -44,19 +53,16 @@ namespace Arkanoid
 
         public Screen()
         {
-
-        }
-
-        public Screen(Dictionary<string, GameObject> gameObjectsOnScreen, ScreenBoundaries screenBoundaries)
-        {
-            this.gameObjectsOnScreen = gameObjectsOnScreen;
-            this.screenBoundaries = screenBoundaries;
-        }
-
-        public Screen(GraphicsDevice graphicsDevice)
-        {
             this.gameObjectsOnScreen = new Dictionary<string, GameObject>();
             this.FontsOnScreen = new Dictionary<string, FontObject>();
+            this.HoldOutObjects = new Dictionary<string, GameObject>();
+        }
+
+      
+
+        public Screen(GraphicsDevice graphicsDevice):this()
+        {
+            
             this.screenBoundaries = new ScreenBoundaries(graphicsDevice);
         }
 
@@ -203,12 +209,39 @@ namespace Arkanoid
             foreach (string objectName in namesOfObjectToCheck)
             {
 
-                if (this.GetGameObject(objectName)!=null && this.GetGameObject(objectName).isInCollisionWithOtherObject(this.GetGameObject(nameOfObjectToHaveCollision)))
+                if (nameOfObjectToHaveCollision!=objectName &&
+                    this.GetGameObject(objectName)!=null && 
+                    this.GetGameObject(objectName).isInCollisionWithOtherObject(this.GetGameObject(nameOfObjectToHaveCollision)))
                 {
                     answer = objectName;
                     break;
                 }
                
+            }
+
+            return answer;
+        }
+
+        public string checkIfObjectIsInCollisionWithOtherObjects(GameObject ObjectToHaveCollision, List<string> namesOfObjectToCheck)
+        {
+            string answer = null;
+
+            namesOfObjectToCheck.Add("LEFT_WALL");
+            namesOfObjectToCheck.Add("TOP_WALL");
+            namesOfObjectToCheck.Add("RIGHT_WALL");
+
+
+            foreach (string objectName in namesOfObjectToCheck)
+            {
+
+                if (
+                    this.GetGameObject(objectName) != null &&
+                    this.GetGameObject(objectName).isInCollisionWithOtherObject(ObjectToHaveCollision))
+                {
+                    answer = objectName;
+                    break;
+                }
+
             }
 
             return answer;
@@ -248,7 +281,91 @@ namespace Arkanoid
 
         }
 
-        
+        public void setUpEventTimer(int interval, bool cyclic = true,ElapsedEventHandler calledMethod = null)
+        {
+            this.ScreenEventTimer = new Timer(interval);
+            this.ScreenEventTimer.AutoReset = cyclic;
+            this.ScreenEventTimer.Elapsed += calledMethod;
+            this.ScreenEventTimer.Enabled = true;
+
+        }
+
+        public void addHoldOutObject(string objectName, GameObject gameObject)
+        {
+            this.HoldOutObjects.Add(objectName, gameObject);
+        }
+
+        public void addHoldOutObjects(List<string> objectNames, List<GameObject> gameObjects )
+        {
+            for (int i = 0; i < objectNames.Count; i++)
+            {
+                this.addHoldOutObject(objectNames[i],gameObjects[i]);
+            }
+
+        }
+        public GameObject getHoldoutObject(string name)
+        {
+            return this.HoldOutObjects[name];
+        }
+
+        public void moveHoldOutObjectToDisplay(string name)
+        {
+            this.addNewObjectToTheScreen(name, this.getHoldoutObject(name));
+        }
+
+        public void moveHoldOutObjectToDisplay(string name, Point display_location)
+        {
+            this.getHoldoutObject(name).moveObject(display_location);
+            this.addNewObjectToTheScreen(name, this.getHoldoutObject(name));
+        }
+
+        public void moveHoldOutObjectToDisplayInRandomPlace(string name, Rectangle zoneToPickPoint)
+        {
+            Point randomPoint;
+            GameObject objectToPlace = this.getHoldoutObject(name);
+            
+            Random r = new Random();
+            bool isLocationCorrect = false;
+            List<string> objectsToCheck = GameObjectsOnScreen.Keys.ToList();
+            if (objectsToCheck.Contains("tlo"))
+            {
+                objectsToCheck.Remove("tlo");
+            }
+
+            while (isLocationCorrect != true)
+            {
+                randomPoint = new Point(r.Next(zoneToPickPoint.X, zoneToPickPoint.Width - objectToPlace.ObjectShape.Width),
+                                        r.Next(zoneToPickPoint.Y, zoneToPickPoint.Height - objectToPlace.ObjectShape.Height));
+
+                objectToPlace.moveObject(randomPoint);
+
+
+                if (this.checkIfObjectIsInCollisionWithOtherObjects(objectToPlace, objectsToCheck) == null)
+                {
+                    isLocationCorrect = true;
+
+
+                }
+            }
+
+            this.moveHoldOutObjectToDisplay(name);
+        }
+
+        public void stretchGameObjectOnScreenNTimes(string name, int n)
+        {
+            this.GetGameObject(name).stretchObjectNTimes(n);
+
+        }
+
+        public void squeezeGameObjectOnScreenNTimes(string name, int n)
+        {
+            this.GetGameObject(name).squeezeObjectNTimes(n);
+
+        }
+
+
+
+
 
 
     }

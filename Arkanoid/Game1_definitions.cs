@@ -79,6 +79,86 @@ namespace Arkanoid
 
             return answer;
         }
+        protected string pickRandomPowerUp()
+        {
+            Random r = new Random();
+            bool isPickOk = false;
+
+            string powerUpName = powerUps[r.Next(0, powerUps.Count)];
+
+            while (isPickOk==false)
+            {
+                if ((powerUpName== powerUps[2] && wasPaddleProlonged==true)||
+                    powerUpName == powerUps[3] && wasPaddleShorthened == true)
+                {
+                    powerUpName = powerUps[r.Next(0, powerUps.Count)];
+                }
+                else 
+                {
+                    isPickOk = true;
+                }
+
+
+            }
+           
+            return powerUpName;
+        }
+        
+
+        protected void PowerUpShowUp(Object source, System.Timers.ElapsedEventArgs e)
+        {
+            if (screenManager!=null && currentPowerUp == null)
+            {
+                currentPowerUp = pickRandomPowerUp();
+                screenManager.orderScreenToDisplayHoldoutObjectInRandomPlace(GameStatesEnum.GAME, currentPowerUp, 
+                    new Rectangle(0,0, screenManager.getSelectedScreenWidth(GameStatesEnum.GAME), screenManager.getGameObjectFromTheScreen(GameStatesEnum.GAME,"paddle").ObjectShape.Y+40));
+            }
+        
+        }
+
+        protected void interpretPowerUpReward()
+        {
+            //shoot
+            if (currentPowerUp == powerUps[0])
+            {
+
+            }
+            //health
+            else if (currentPowerUp == powerUps[1])
+            {
+                lives++;
+                screenManager.changeTextOfTheFontOnScreen(GameStatesEnum.GAME, "life_font", "Lives: " + lives);
+            }
+            //long
+            else if (currentPowerUp == powerUps[2] && wasPaddleProlonged == false)
+            {
+                if (wasPaddleShorthened)
+                {
+                    wasPaddleShorthened = false;
+                }
+                else
+                {
+                    wasPaddleProlonged = true;
+                }
+
+                screenManager.getScreen(GameStatesEnum.GAME).stretchGameObjectOnScreenNTimes("paddle",2);
+
+            }
+            //short
+            else if (currentPowerUp == powerUps[3] && wasPaddleShorthened == false)
+            {
+                if (wasPaddleProlonged)
+                {
+                    wasPaddleProlonged = false;
+                }
+                else
+                {
+                    wasPaddleShorthened = true;
+                }
+                screenManager.getScreen(GameStatesEnum.GAME).squeezeGameObjectOnScreenNTimes("paddle", 2);
+            }
+           
+        }
 
         public bool Get_is_game_paused()
         {
@@ -93,7 +173,6 @@ namespace Arkanoid
                     screenManager.getScreen(GameStatesEnum.GAME).GetGameObject("ball").MovmentVector = new MovmentVector(0, 0);
                     is_game_paused = true;
                 }
-
         }
         public void Try_to_unpause_a_game(int x_direction, int y_direction)
         {
@@ -110,7 +189,6 @@ namespace Arkanoid
             names_to_load = new List<string>();
             foreach (string i in names_of_remove)
             {
-                Console.WriteLine(i);
                 names_to_load.Add(i);
                 blocks.Add(i);
             }
