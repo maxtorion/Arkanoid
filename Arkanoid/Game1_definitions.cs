@@ -193,7 +193,8 @@ namespace Arkanoid
                 blocks.Add(i);
             }
             screenManager.getScreen(GameStatesEnum.GAME).addNewObjectsToTheScreen(names_to_load, gameObjectsGenerator.getListOfGameObjects(names_to_load));
-     
+
+            set_up_ball();
             points = 0;
             lives = 3;
             names_of_remove.Clear();
